@@ -2,8 +2,12 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import "./assets/styles/index.css";
+import Vuikit from "vuikit";
+import VuikitIcons from "@vuikit/icons";
 
 Vue.config.productionTip = false;
+Vue.use(Vuikit);
+Vue.use(VuikitIcons);
 
 new Vue({
   router,
