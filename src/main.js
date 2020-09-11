@@ -3,11 +3,9 @@ import App from "./App.vue";
 import router from "./router";
 import "./assets/styles/index.css";
 import Vuikit from "vuikit";
-import { firestorePlugin } from "vuefire";
 import VuikitIcons from "@vuikit/icons";
 import "@vuikit/theme";
 
-Vue.use(firestorePlugin);
 Vue.config.productionTip = false;
 
 Vue.use(Vuikit);
