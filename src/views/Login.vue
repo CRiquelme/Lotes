@@ -15,5 +15,4 @@ export default {
 };
 </script>
 
-<style>
-</style>template
+<style></style>template
