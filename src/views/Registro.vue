@@ -147,7 +147,7 @@ export default {
           });
       } else {
         // Si hay errores
-        self.nombre === "" ? console.log("Nombre") : "";
+        self.nombre === "" ? document.getElementById("myAnchor") : "";
       }
     },
   },

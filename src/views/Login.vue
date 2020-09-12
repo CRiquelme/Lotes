@@ -26,7 +26,7 @@ export default {
       f.auth()
         .signInWithEmailAndPassword(this.usuario, this.contrasena)
         .then(
-          () => alert(`Conectado`),
+          () => this.$router.replace('home'),
           (error) => console.log(error)
         )
         .catch(function(error) {
