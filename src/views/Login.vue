@@ -6,9 +6,6 @@
       <input v-model="contrasena" type="text" placeholder="Contraseña" />
       <input type="submit" value="Acceder" />
     </form>
-    <pre>
-      {{ $data }}
-    </pre>
   </div>
 </template>
 
