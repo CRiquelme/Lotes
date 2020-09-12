@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .input-error {
+    @apply appearance-none block w-full bg-white text-gray-700 border rounded py-3 px-4 mb-3 leading-tight border-red-600;
+  }
+  .input {
+    @apply appearance-none block w-full bg-white text-gray-700 border rounded py-3 px-4 mb-3 leading-tight;
+  }
+
+  .label-error {
+    @apply text-red-500 block uppercase tracking-wide text-xs font-bold mb-2;
+  }
+
+  .label {
+    @apply block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2;
+  }
+
+  .mensaje-error {
+    @apply text-red-500 text-xs italic;
+  }
+}
