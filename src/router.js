@@ -3,12 +3,18 @@ import Router from "vue-router";
 import Login from "@/views/Login";
 import Registro from "@/views/Registro";
 import Home from "@/views/Home";
+import Ubicacion from "@/views/Ubicacion";
 // import firebase from "firebase";
 Vue.use(Router);
 
 const router = new Router({
   mode: "history",
   routes: [
+    {
+      path: "/ubicacion",
+      name: "Ubicacion",
+      component: Ubicacion,
+    }, 
     {
       path: "/login",
       name: "Login",

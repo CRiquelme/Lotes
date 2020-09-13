@@ -7,6 +7,7 @@ import VuikitIcons from "@vuikit/icons";
 import "@vuikit/theme";
 import firebase from "firebase";
 import Vuelidate from "vuelidate";
+import * as VueGoogleMaps from 'vue2-google-maps'
 
 Vue.config.productionTip = false;
 
@@ -19,3 +20,9 @@ firebase.auth().onAuthStateChanged(() => {
     render: (h) => h(App),
   }).$mount("#app");
 });
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyAXfjM-ENwQbcfybmC_kSAofPHayGe3rog',
+  },
+})
