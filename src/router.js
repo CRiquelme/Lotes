@@ -1,20 +1,19 @@
 import Vue from "vue";
 import Router from "vue-router";
-// import Login from "@/views/Login";
+import Login from "@/views/Login";
 import Registro from "@/views/Registro";
 import Home from "@/views/Home";
 // import firebase from "firebase";
-
 Vue.use(Router);
 
 const router = new Router({
   mode: "history",
   routes: [
-    /*     {
-      path: "*",
+    {
+      path: "/login",
       name: "Login",
       component: Login,
-    }, */
+    }, 
     {
       path: "/registro",
       name: "Registro",
