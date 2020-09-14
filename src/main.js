@@ -7,12 +7,15 @@ import VuikitIcons from "@vuikit/icons";
 import "@vuikit/theme";
 import firebase from "firebase";
 import Vuelidate from "vuelidate";
+import vuex from "vuex";
 
 Vue.config.productionTip = false;
 
+Vue.use(vuex);
 Vue.use(Vuikit);
 Vue.use(VuikitIcons);
 Vue.use(Vuelidate);
+
 firebase.auth().onAuthStateChanged(() => {
   new Vue({
     router,

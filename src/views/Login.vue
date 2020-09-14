@@ -1,7 +1,10 @@
 <template>
   <div class="registro grid place-content-center">
     <h2 class="text-4xl uppercase mt-10 text-blue-800 font-black">Ingresar</h2>
-    <form @submit.prevent="login" class="w-full max-w-lg text-left bg-gray-100 shadow-md rounded px-10 pt-10 pb-10 mb-4">
+    <form
+      @submit.prevent="login"
+      class="w-full max-w-lg text-left bg-gray-100 shadow-md rounded px-10 pt-10 pb-10 mb-4"
+    >
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="form-group w-full  px-3 mb-6 md:mb-0">
           <!-- email -->
@@ -23,16 +26,17 @@
               v-model.trim="$v.email.$model"
               id="email"
               type="text"
-              placeholder="Correo"/>
-              <div
-                v-if="!$v.email.required"
-                :class="{
-                  'mensaje-error': $v.email.$error,
-                  hidden: !$v.email.$error,
-                }"
-              >
-                Es requerido
-              </div>
+              placeholder="Correo"
+            />
+            <div
+              v-if="!$v.email.required"
+              :class="{
+                'mensaje-error': $v.email.$error,
+                hidden: !$v.email.$error,
+              }"
+            >
+              Es requerido
+            </div>
           </div>
           <!-- contrasena -->
           <div>
@@ -79,7 +83,7 @@
 <script>
 import { f } from "../firebase";
 import "firebase/auth";
-import {required, minLength, email } from "vuelidate/lib/validators";
+import { required, minLength, email } from "vuelidate/lib/validators";
 
 export default {
   name: "Login",
@@ -98,7 +102,7 @@ export default {
         f.auth()
           .signInWithEmailAndPassword(this.email, this.contrasena)
           .then(
-            () => this.$router.replace('home'),
+            () => this.$router.replace("home"),
             (error) => console.log(error)
           )
           .catch(function(error) {

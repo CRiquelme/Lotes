@@ -1,11 +1,13 @@
 <template>
-  <div class="registro grid place-content-center">
-    <h2 class="text-4xl uppercase mt-10 text-blue-800 font-black">
+  <div class="registro grid place-content-center lg:mt-20">
+    <h2
+      class="text-lg lg:text-2xl xl:text-4xl uppercase mt-10 text-blue-800 font-black text-center"
+    >
       Registrarse a CR-Lotes
     </h2>
     <form
       @submit.prevent="registro"
-      class="w-full max-w-lg text-left bg-gray-100 shadow-md rounded px-10 pt-10 pb-10 mb-4"
+      class="max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl text-left bg-gray-100 shadow-md rounded px-10 pt-10 pb-10 mb-4 lg:px-10"
     >
       <div class="flex flex-wrap -mx-3 mb-6">
         <!-- Nombre -->
@@ -199,12 +201,16 @@
         </div>
       </div>
 
-      <div class="text-center text-xl">
+      <div class="text-center text-lg lg:text-xl">
         <input
           type="submit"
           value="Quiero registrarme en CR-Lotes"
           class="bg-blue-800 hover:bg-blue-300 text-blue-100 hover:text-blue-800 font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-800 rounded"
         />
+      </div>
+
+      <div class="text-center text-xl mt-5 font-bold">
+        <router-link to="/login">Login</router-link>
       </div>
     </form>
   </div>
@@ -214,6 +220,7 @@
 import { db, f } from "../firebase";
 import "firebase/auth";
 import { required, minLength, sameAs, email } from "vuelidate/lib/validators";
+import Swal from "sweetalert2";
 
 export default {
   name: "Registro",
@@ -228,6 +235,7 @@ export default {
       submitStatus: null,
     };
   },
+
   methods: {
     registro() {
       let self = this;
@@ -248,11 +256,20 @@ export default {
                 apellido: self.apellido,
               });
           })
+          .then(() => this.$router.replace("home"))
           .catch(function(error) {
             var errorCode = error.code;
-            var errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
+            // var errorMessage = error.message;
+            if (errorCode === "auth/email-already-in-use") {
+              Swal.fire({
+                icon: "info",
+                title: "Correo electrónico registrado",
+                text:
+                  "El correo electrónico que quieres registrar ya existe, puedes ir al login para ingresar.",
+              });
+            }
+            // console.log(errorCode);
+            // console.log(errorMessage);
           });
       }
     },
@@ -280,3 +297,5 @@ export default {
   },
 };
 </script>
+
+<style></style>
