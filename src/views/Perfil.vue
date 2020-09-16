@@ -23,7 +23,6 @@ export default {
     // Comprobar si hay datos de usuario
     if (user != null) {
       self.uid = user.uid;
-      console.log(`${self.uid}`);
       this.datosUser = db.collection("user").doc(self.uid);
       // Si no hay datos entonces redirigir al login para no ingresar a esta sección
     } else {
