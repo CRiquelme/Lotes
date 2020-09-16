@@ -3,26 +3,26 @@
   <!-- Lo hice así solo para probar, quería dejar la parte funcional activa -->
   <div id="app">
     <section v-if="uid" id="nav">
-      <header class="bg-gray-200 py-2">
+      <header class="bg-gray-800 py-2 text-white">
         <div class="container mx-auto flex items-center justify-between pt-5">
           <div class="flex">
-            <router-link to="/home" class="inline-block">
-              <h2 id="titulo" class="text-3xl text-blue-800">CR-Lotes</h2>
+            <router-link to="/home" class="inline-block hover:no-underline">
+              <h2 id="titulo" class="text-lg lg:text-3xl text-white pl-3 lg:pl-0">CR-Lotes</h2>
             </router-link>
           </div>
           <div>
             <ul class="flex">
               <li>
                 <router-link to="/home" class="inline-block py-1 px-5">
-                  <i class="fas fa-home text-blue-800"></i>
-                  <span class="inline-block py-1 px-3 text-blue-800 text-base">Home</span>
+                  <i class="fas fa-home text-white"></i>
+                  <span class="inline-block py-1 px-3 text-white text-base">Home</span>
                 </router-link>
               </li>
               <li>
                 <vk-button class="text-center px-5" type="text">
-                  <i class="fas fa-user-circle text-blue-800"></i>
+                  <i class="fas fa-user-circle text-white"></i>
                   <span
-                    class="inline-block py-2 px-3 text-blue-800 text-base capitalize"
+                    class="inline-block py-2 px-3 text-white text-base capitalize"
                   >{{ datosUser.nombre }}</span>
                 </vk-button>
                 <vk-dropdown>
@@ -42,12 +42,11 @@
 
               <li class="py-1 px-3">
                 <vk-button @click="show = true" type="text">
-                  <i class="fas fa-bars text-blue-800 pt-2"></i>
+                  <i class="fas fa-bars text-white pt-2"></i>
                 </vk-button>
-                <vk-offcanvas-content class="bg-gray-200">
+                <vk-offcanvas-content>
                   <vk-offcanvas flipped :show.sync="show">
                     <vk-offcanvas-close @click="show = false"></vk-offcanvas-close>
-                    <h3 class="text-2xl">Menú de navegación</h3>
                     <vk-nav>
                       <vk-nav-item-header title="Header"></vk-nav-item-header>
                       <vk-nav-item href="#" title="Item"></vk-nav-item>
@@ -58,13 +57,6 @@
                   </vk-offcanvas>
                 </vk-offcanvas-content>
               </li>
-
-              <!-- <li class="mr-6">
-        <router-link
-        to="/perfil"
-        class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white"
-        >Perfil</router-link>
-              </li>-->
             </ul>
           </div>
         </div>
@@ -118,5 +110,9 @@ export default {
 <style>
 #titulo {
   font-family: "Montserrat", sans-serif;
+}
+
+.uk-offcanvas-bar {
+  background: #f7fafc !important;
 }
 </style>
