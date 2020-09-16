@@ -25,7 +25,7 @@
     >
       <h2 class="text-blue-800 font-bold uppercase md:mt-10">Datos personales</h2>
       <div class="md:flex md:items-center mb-6 mt-10">
-        <div class="md:w-1/2 pr-4 mb-6">
+        <div class="md:w-1/2 pr-4 mb-6 md:mb-0">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">Nombre</label>
           <input
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -47,7 +47,7 @@
         </div>
       </div>
       <div class="md:flex md:items-center mb-10">
-        <div class="md:w-1/2 pr-4 mb-6">
+        <div class="md:w-1/2 pr-4 mb-6 md:mb-0">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Correo electrónico</label>
           <input
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
