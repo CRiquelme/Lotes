@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap");
+
 @layer components {
   .input-error {
     @apply appearance-none block w-full bg-white text-gray-700 border rounded py-3 px-4 mb-3 leading-tight border-red-600;

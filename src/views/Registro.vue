@@ -2,9 +2,7 @@
   <div class="registro grid place-content-center lg:mt-20">
     <h2
       class="text-lg lg:text-2xl xl:text-4xl uppercase mt-10 text-blue-800 font-black text-center"
-    >
-      Registrarse a CR-Lotes
-    </h2>
+    >Registrarse a CR-Lotes</h2>
     <form
       @submit.prevent="registro"
       class="max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl text-left bg-gray-100 shadow-md rounded px-10 pt-10 pb-10 mb-4 lg:px-10"
@@ -18,9 +16,7 @@
               label: !$v.nombre.$error,
             }"
             for="nombre"
-          >
-            Nombre
-          </label>
+          >Nombre</label>
           <input
             :class="{
               'input-error': $v.nombre.$error,
@@ -37,13 +33,8 @@
               'mensaje-error': $v.nombre.$error,
               hidden: !$v.nombre.$error,
             }"
-          >
-            Es requerido
-          </div>
-          <div
-            :class="{ 'mensaje-error': $v.nombre.$error }"
-            v-if="!$v.nombre.minLength"
-          >
+          >Es requerido</div>
+          <div :class="{ 'mensaje-error': $v.nombre.$error }" v-if="!$v.nombre.minLength">
             Debe contener al menos
             {{ $v.nombre.$params.minLength.min }} letras.
           </div>
@@ -56,9 +47,7 @@
               label: !$v.apellido.$error,
             }"
             for="apellido"
-          >
-            Apellido
-          </label>
+          >Apellido</label>
           <input
             :class="{
               'input-error': $v.apellido.$error,
@@ -75,13 +64,8 @@
               'mensaje-error': $v.apellido.$error,
               hidden: !$v.apellido.$error,
             }"
-          >
-            Es requerido
-          </div>
-          <div
-            :class="{ 'mensaje-error': $v.apellido.$error }"
-            v-if="!$v.apellido.minLength"
-          >
+          >Es requerido</div>
+          <div :class="{ 'mensaje-error': $v.apellido.$error }" v-if="!$v.apellido.minLength">
             Debe contener al menos
             {{ $v.apellido.$params.minLength.min }} letras.
           </div>
@@ -96,9 +80,7 @@
             label: !$v.email.$error,
           }"
           for="email"
-        >
-          Correo electrónico
-        </label>
+        >Correo electrónico</label>
         <input
           :class="{
             'input-error': $v.email.$error,
@@ -115,18 +97,14 @@
             'mensaje-error': $v.email.$error,
             hidden: !$v.email.$error,
           }"
-        >
-          Es requerido
-        </div>
+        >Es requerido</div>
         <div
           v-if="!$v.email.email"
           :class="{
             'mensaje-error': $v.email.$error,
             hidden: !$v.email.$error,
           }"
-        >
-          Debe ser un correo electrónico válido
-        </div>
+        >Debe ser un correo electrónico válido</div>
       </div>
 
       <!-- contraseña -->
@@ -138,9 +116,7 @@
               label: !$v.contrasena.$error,
             }"
             for="contrasena"
-          >
-            Contraseña
-          </label>
+          >Contraseña</label>
           <input
             :class="{
               'input-error': $v.contrasena.$error,
@@ -157,13 +133,8 @@
               'mensaje-error': $v.contrasena.$error,
               hidden: !$v.contrasena.$error,
             }"
-          >
-            Es requerido
-          </div>
-          <div
-            :class="{ 'mensaje-error': $v.contrasena.$error }"
-            v-if="!$v.contrasena.minLength"
-          >
+          >Es requerido</div>
+          <div :class="{ 'mensaje-error': $v.contrasena.$error }" v-if="!$v.contrasena.minLength">
             Debe contener al menos
             {{ $v.contrasena.$params.minLength.min }} letras.
           </div>
@@ -177,9 +148,7 @@
               label: !$v.confirmacion_contrasena.$error,
             }"
             for="confirmar_contrasena"
-          >
-            Confirmar contraseña
-          </label>
+          >Confirmar contraseña</label>
           <input
             :class="{
               'input-error': $v.confirmacion_contrasena.$error,
@@ -195,9 +164,7 @@
               'mensaje-error': !$v.confirmacion_contrasena.sameAsPassword,
             }"
             v-if="!$v.confirmacion_contrasena.sameAsPassword"
-          >
-            Contraseñas deben ser identicas
-          </div>
+          >Contraseñas deben ser identicas</div>
         </div>
       </div>
 
@@ -236,6 +203,13 @@ export default {
     };
   },
 
+  created: function () {
+    var user = f.auth().currentUser;
+    if (user != null) {
+      this.$router.replace("home");
+    }
+  },
+
   methods: {
     registro() {
       let self = this;
@@ -245,19 +219,17 @@ export default {
       } else {
         f.auth()
           .createUserWithEmailAndPassword(this.email, this.contrasena)
-          .then(function(data) {
+          .then(function (data) {
             let uid = data.user.uid;
-            db.collection("users")
-              .doc(uid)
-              .set({
-                id: uid,
-                email: self.email,
-                nombre: self.nombre,
-                apellido: self.apellido,
-              });
+            db.collection("users").doc(uid).set({
+              id: uid,
+              email: self.email,
+              nombre: self.nombre,
+              apellido: self.apellido,
+            });
           })
           .then(() => this.$router.replace("home"))
-          .catch(function(error) {
+          .catch(function (error) {
             var errorCode = error.code;
             // var errorMessage = error.message;
             if (errorCode === "auth/email-already-in-use") {
