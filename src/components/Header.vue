@@ -1,5 +1,5 @@
 <template>
-  <section v-if="uid" id="nav">
+  <section id="nav">
     <header class="bg-gray-800 py-2 text-white">
       <div class="container mx-auto flex items-center justify-between pt-5">
         <div class="flex">
@@ -15,7 +15,7 @@
                 <span class="inline-block py-1 px-3 text-white text-base">Home</span>
               </router-link>
             </li>
-            <li>
+            <li v-if="uid">
               <vk-button class="text-center px-5" type="text">
                 <i class="fas fa-user-circle text-white"></i>
                 <span
@@ -36,6 +36,16 @@
                   <vk-nav-item title="Salir" @click="logout"></vk-nav-item>
                 </vk-nav-dropdown>
               </vk-dropdown>
+            </li>
+            <li v-if="!uid">
+              <router-link to="/login" class="inline-block py-1 px-5">
+                <span class="inline-block py-1 px-3 text-white text-base">Ingresar</span>
+              </router-link>
+            </li>
+            <li v-if="!uid">
+              <router-link to="/registro" class="inline-block py-1 px-5">
+                <span class="inline-block py-1 px-3 text-white text-base">Registrarse</span>
+              </router-link>
             </li>
 
             <li class="py-1 px-3">
@@ -59,11 +69,6 @@
         </div>
       </div>
     </header>
-  </section>
-  <section v-else id="nav">
-    <router-link to="/login">Login</router-link>
-    <router-link to="/registro">Registro</router-link>
-    <router-link to="/perfil">Perfil</router-link>
   </section>
 </template>
 
@@ -89,7 +94,6 @@ export default {
       dUser.get().then(function (doc) {
         if (doc.exists) {
           self.datosUser = doc.data();
-          console.log(self.datosUser);
         }
       });
     }

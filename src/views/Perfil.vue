@@ -27,9 +27,10 @@
         <vk-nav>
           <li class="text-2xl uppercase text-blue-800 font-medium">Perfil personal</li>
           <li class="text-blue-800 text-lg">
-            <router-link to="/perfil">Datos personales</router-link>
+            <router-link to="/perfil">
+              <i class="fas fa-angle-right"></i> Datos personales
+            </router-link>
           </li>
-          <!-- <vk-nav-item href="#" title="Item"></vk-nav-item> -->
         </vk-nav>
       </vk-offcanvas>
     </vk-offcanvas-content>
@@ -167,6 +168,10 @@ export default {
 
 <style>
 #menu_perfil .uk-offcanvas-bar {
-  background: #e7e7e7 !important;
+  background: #fefff7 !important;
+}
+
+#menu_perfil .uk-nav-default > li > a {
+  color: rgb(73, 71, 71);
 }
 </style>
