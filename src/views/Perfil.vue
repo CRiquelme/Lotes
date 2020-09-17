@@ -1,7 +1,22 @@
 <template>
   <div class="container mx-auto md:mt-5">
-    <div class="flex items-center px-8">
-      <h1 class="text-4xl uppercase mt-10 text-blue-800 font-black">Perfil</h1>
+    <vk-breadcrumb>
+      <li>
+        <router-link to="/home" class="inline-block">
+          <i class="fas fa-home"></i>
+          <span class="inline-block px-3 text-base">Home</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link to="/perfil" class="inline-block">
+          <span class="inline-block px-3 text-base">Perfil</span>
+        </router-link>
+      </li>
+      <vk-breadcrumb-item>Datos personales</vk-breadcrumb-item>
+    </vk-breadcrumb>
+
+    <div class="flex items-center px-8 lg:px-0">
+      <h1 class="text-4xl uppercase mt-10 text-black font-black">Perfil</h1>
       <vk-button @click="show = true" type="text">
         <i class="fas fa-bars text-red-800"></i>
       </vk-button>

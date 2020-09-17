@@ -4,7 +4,7 @@
       <div class="container mx-auto flex items-center justify-between pt-5">
         <div class="flex">
           <router-link to="/home" class="inline-block hover:no-underline">
-            <h2 id="titulo" class="text-lg lg:text-3xl text-white pl-3 lg:pl-0">CR-Lotes</h2>
+            <h2 id="titulo" class="text-lg lg:text-3xl text-white pl-1 lg:pl-0">CR-Lotes</h2>
           </router-link>
         </div>
         <div>
@@ -105,6 +105,25 @@ export default {
 </script>
 
 <style>
+header {
+  background-image: linear-gradient(90deg, rgb(33, 33, 33) 0%, transparent 59%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(168, 168, 168, 0.1) 0px,
+      rgba(168, 168, 168, 0.1) 1px,
+      transparent 1px,
+      transparent 13px
+    ),
+    repeating-linear-gradient(
+      135deg,
+      rgba(168, 168, 168, 0.1) 0px,
+      rgba(168, 168, 168, 0.1) 1px,
+      transparent 1px,
+      transparent 13px
+    ),
+    linear-gradient(90deg, rgb(33, 33, 33), rgb(33, 33, 33));
+}
+
 .uk-offcanvas-bar {
   background: #f7fafc !important;
 }
