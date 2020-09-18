@@ -28,7 +28,7 @@
                   <li>
                     <router-link to="/perfil">Perfil</router-link>
                   </li>
-                  <vk-nav-item title="Item"></vk-nav-item>
+                  <vk-nav-item title="Favoritos"></vk-nav-item>
                   <vk-nav-item-divider></vk-nav-item-divider>
                   <vk-nav-item-header title="Sección 2"></vk-nav-item-header>
                   <vk-nav-item title="Item"></vk-nav-item>
