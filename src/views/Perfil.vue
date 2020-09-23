@@ -1,7 +1,22 @@
 <template>
   <div class="container mx-auto md:mt-5">
-    <div class="flex items-center px-8">
-      <h1 class="text-4xl uppercase mt-10 text-blue-800 font-black">Perfil</h1>
+    <vk-breadcrumb>
+      <li>
+        <router-link to="/home" class="inline-block">
+          <i class="fas fa-home"></i>
+          <span class="inline-block px-3 text-base">Home</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link to="/perfil" class="inline-block">
+          <span class="inline-block px-3 text-base">Perfil</span>
+        </router-link>
+      </li>
+      <vk-breadcrumb-item>Datos personales</vk-breadcrumb-item>
+    </vk-breadcrumb>
+
+    <div class="flex items-center px-8 lg:px-0">
+      <h1 class="text-4xl uppercase mt-10 text-black font-black">Perfil</h1>
       <vk-button @click="show = true" type="text">
         <i class="fas fa-bars text-red-800"></i>
       </vk-button>
@@ -12,9 +27,10 @@
         <vk-nav>
           <li class="text-2xl uppercase text-blue-800 font-medium">Perfil personal</li>
           <li class="text-blue-800 text-lg">
-            <router-link to="/perfil">Datos personales</router-link>
+            <router-link to="/perfil">
+              <i class="fas fa-angle-right"></i> Datos personales
+            </router-link>
           </li>
-          <!-- <vk-nav-item href="#" title="Item"></vk-nav-item> -->
         </vk-nav>
       </vk-offcanvas>
     </vk-offcanvas-content>
@@ -152,6 +168,10 @@ export default {
 
 <style>
 #menu_perfil .uk-offcanvas-bar {
-  background: #e7e7e7 !important;
+  background: #fefff7 !important;
+}
+
+#menu_perfil .uk-nav-default > li > a {
+  color: rgb(73, 71, 71);
 }
 </style>
