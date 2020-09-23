@@ -3,7 +3,6 @@ import Router from "vue-router";
 import Login from "@/views/Login";
 import Registro from "@/views/Registro";
 import Home from "@/views/Home";
-import Ubicacion from "@/views/Ubicacion";
 import Perfil from "@/views/Perfil";
 // import firebase from "firebase";
 Vue.use(Router);
@@ -11,11 +10,6 @@ Vue.use(Router);
 const router = new Router({
   mode: "history",
   routes: [
-    {
-      path: "/ubicacion",
-      name: "Ubicacion",
-      component: Ubicacion,
-    }, 
     {
       path: "/login",
       name: "Login",
@@ -35,9 +29,6 @@ const router = new Router({
       path: "/home",
       name: "Home",
       component: Home,
-      meta: {
-        autentificado: true,
-      },
     },
     {
       path: "/Perfil",

@@ -8,6 +8,7 @@ import "@vuikit/theme";
 import firebase from "firebase";
 import Vuelidate from "vuelidate";
 import * as VueGoogleMaps from 'vue2-google-maps'
+import Geocoder from "@pderas/vue2-geocoder";
 import vuex from "vuex";
 
 Vue.config.productionTip = false;
@@ -29,3 +30,9 @@ Vue.use(VueGoogleMaps, {
     key: 'AIzaSyAXfjM-ENwQbcfybmC_kSAofPHayGe3rog',
   },
 })
+Vue.use(Geocoder, {
+  defaultCountryCode: "CR",
+  defaultLanguage:    "es",
+  defaultMode:        'address', 
+  googleMapsApiKey:  'AIzaSyAXfjM-ENwQbcfybmC_kSAofPHayGe3rog'
+});
