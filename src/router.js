@@ -4,6 +4,7 @@ import Login from "@/views/Login";
 import Registro from "@/views/Registro";
 import Home from "@/views/Home";
 import Perfil from "@/views/Perfil";
+import Publicar from "@/views/Publicar";
 // import firebase from "firebase";
 Vue.use(Router);
 
@@ -37,6 +38,11 @@ const router = new Router({
       meta: {
         autentificado: true,
       },
+    },
+    {
+      path: "/publicar",
+      name: "Publicar",
+      component: Publicar,
     },
   ],
 });
