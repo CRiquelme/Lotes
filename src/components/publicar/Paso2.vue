@@ -59,60 +59,15 @@
       <div class="uk-inline uk-light">
         <img src="/images/frente_terreno.jpeg" />
         <a
+          v-for="marcador in marcadores"
+          :key="marcador.index"
           class="uk-position-absolute uk-transform-center"
-          :class="{ active_frente_terreno: frente_terreno_acceso_id === 0 }"
-          style="left: 30%; top: 22%"
+          :class="{
+            active_frente_terreno: frente_terreno_acceso_id === marcador.id,
+          }"
+          :style="marcador.estilo"
           uk-marker
-          @click="frenteTerreno(0)"
-        ></a>
-        <a
-          class="uk-position-absolute uk-transform-center"
-          :class="{ active_frente_terreno: frente_terreno_acceso_id === 1 }"
-          style="left: 49%; top: 29%"
-          uk-marker
-          @click="frenteTerreno(1)"
-        ></a>
-        <a
-          class="uk-position-absolute uk-transform-center"
-          :class="{ active_frente_terreno: frente_terreno_acceso_id === 2 }"
-          style="left: 29%; top: 45%"
-          uk-marker
-          @click="frenteTerreno(2)"
-        ></a>
-        <a
-          class="uk-position-absolute uk-transform-center"
-          :class="{ active_frente_terreno: frente_terreno_acceso_id === 3 }"
-          style="left: 36%; top: 45%"
-          uk-marker
-          @click="frenteTerreno(3)"
-        ></a>
-        <a
-          class="uk-position-absolute uk-transform-center"
-          :class="{ active_frente_terreno: frente_terreno_acceso_id === 4 }"
-          style="left: 48%; top: 42%"
-          uk-marker
-          @click="frenteTerreno(4)"
-        ></a>
-        <a
-          class="uk-position-absolute uk-transform-center"
-          :class="{ active_frente_terreno: frente_terreno_acceso_id === 5 }"
-          style="left: 37%; top: 57%"
-          uk-marker
-          @click="frenteTerreno(5)"
-        ></a>
-        <a
-          class="uk-position-absolute uk-transform-center"
-          :class="{ active_frente_terreno: frente_terreno_acceso_id === 6 }"
-          style="left: 40%; top: 68%"
-          uk-marker
-          @click="frenteTerreno(6)"
-        ></a>
-        <a
-          class="uk-position-absolute uk-transform-center"
-          :class="{ active_frente_terreno: frente_terreno_acceso_id === 7 }"
-          style="left: 72%; top: 58%"
-          uk-marker
-          @click="frenteTerreno(7)"
+          @click="frenteTerreno(marcador.id)"
         ></a>
       </div>
     </div>
@@ -154,6 +109,16 @@ export default {
         "Afectado por alta tensión",
         "Transporte público (frente a vía publica)",
       ],
+      marcadores: [
+        { id: 0, estilo: "left: 30%; top: 22%" },
+        { id: 1, estilo: "left: 49%; top: 29%" },
+        { id: 2, estilo: "left: 29%; top: 45%" },
+        { id: 3, estilo: "left: 36%; top: 45%" },
+        { id: 4, estilo: "left: 48%; top: 42%" },
+        { id: 5, estilo: "left: 37%; top: 57%" },
+        { id: 6, estilo: "left: 40%; top: 68%" },
+        { id: 7, estilo: "left: 72%; top: 58%" },
+      ],
     };
   },
   methods: {
@@ -168,7 +133,6 @@ export default {
         "Lote cabecero",
         "Lote manzanero",
       ];
-      // console.log(frente_de_terreno[dato]);
       this.frente_terreno_acceso_id = dato;
       this.frente_terreno_acceso = frente_de_terreno[dato];
     },
