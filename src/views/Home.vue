@@ -69,7 +69,6 @@
                 Lote
             </span>
         </div>
-
         <div>
             <input type="button" value="BUSCAR EN ESTA ÁREA" class="h-10 p-2 m-2" @click="Buscar">
         </div>

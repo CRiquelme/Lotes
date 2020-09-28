@@ -11,6 +11,11 @@ const router = new Router({
   mode: "history",
   routes: [
     {
+      path: "/",
+      name: "Home",
+      component: Home,
+    },
+    {
       path: "/login",
       name: "Login",
       component: Login,
@@ -25,11 +30,7 @@ const router = new Router({
       name: "Error",
       component: Error,
     },
-    {
-      path: "/home",
-      name: "Home",
-      component: Home,
-    },
+
     {
       path: "/Perfil",
       name: "Perfil",
