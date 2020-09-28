@@ -7,9 +7,12 @@ import VuikitIcons from "@vuikit/icons";
 import "@vuikit/theme";
 import firebase from "firebase";
 import Vuelidate from "vuelidate";
-import * as VueGoogleMaps from 'vue2-google-maps'
+import * as VueGoogleMaps from "vue2-google-maps";
 import Geocoder from "@pderas/vue2-geocoder";
 import vuex from "vuex";
+import Antd from "ant-design-vue";
+import "ant-design-vue/dist/antd.css";
+Vue.config.productionTip = false;
 
 Vue.config.productionTip = false;
 
@@ -17,6 +20,7 @@ Vue.use(vuex);
 Vue.use(Vuikit);
 Vue.use(VuikitIcons);
 Vue.use(Vuelidate);
+Vue.use(Antd);
 
 firebase.auth().onAuthStateChanged(() => {
   new Vue({
@@ -27,12 +31,12 @@ firebase.auth().onAuthStateChanged(() => {
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyAXfjM-ENwQbcfybmC_kSAofPHayGe3rog',
+    key: "AIzaSyAXfjM-ENwQbcfybmC_kSAofPHayGe3rog",
   },
-})
+});
 Vue.use(Geocoder, {
   defaultCountryCode: "CR",
-  defaultLanguage:    "es",
-  defaultMode:        'address', 
-  googleMapsApiKey:  'AIzaSyAXfjM-ENwQbcfybmC_kSAofPHayGe3rog'
+  defaultLanguage: "es",
+  defaultMode: "address",
+  googleMapsApiKey: "AIzaSyAXfjM-ENwQbcfybmC_kSAofPHayGe3rog",
 });

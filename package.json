@@ -12,6 +12,7 @@
     "@pderas/vue2-geocoder": "^1.1.0",
     "@vuikit/icons": "^0.8.1",
     "@vuikit/theme": "^0.8.1",
+    "ant-design-vue": "^1.6.5",
     "core-js": "^3.6.5",
     "firebase": "^7.20.0",
     "firebaseui": "^4.6.1",
