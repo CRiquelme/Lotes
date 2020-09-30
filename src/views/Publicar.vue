@@ -52,10 +52,10 @@
               </select>
             </span>
             <label for="lat"
-              >Latitud: <input type="text" id="lat" v-model="lat"
+              >Latitud: <input type="text" id="lat" v-model="lat" disabled
             /></label>
             <label for="lng"
-              >Longitud: <input type="text" id="lng" v-model="lng"
+              >Longitud: <input type="text" id="lng" v-model="lng" disabled
             /></label>
           </div>
 
@@ -382,8 +382,8 @@ export default {
       selectedCenter: { lat: 10, lng: -84 },
       selectedZoom: 7,
 
-      lat: "",
-      lng: "",
+      lat: 10,
+      lng:-84,
     };
   },
   methods: {
@@ -427,6 +427,8 @@ export default {
           lat: x.results[0].geometry.location.lat,
           lng: x.results[0].geometry.location.lng,
         };
+        this.lat=x.results[0].geometry.location.lat
+        this.lng= x.results[0].geometry.location.lng
       });
 
       //llena lista desplegable de cantones
@@ -463,6 +465,8 @@ export default {
           lat: x.results[0].geometry.location.lat,
           lng: x.results[0].geometry.location.lng,
         };
+        this.lat=x.results[0].geometry.location.lat
+        this.lng= x.results[0].geometry.location.lng
       });
 
       //llena lista desplegable de Distritos
@@ -503,6 +507,8 @@ export default {
           lat: x.results[0].geometry.location.lat,
           lng: x.results[0].geometry.location.lng,
         };
+        this.lat=x.results[0].geometry.location.lat
+        this.lng= x.results[0].geometry.location.lng
       });
       this.selectedZoom = 15;
     },
@@ -511,7 +517,6 @@ export default {
       let self = this;
       self.lat = evnt.lat();
       self.lng = evnt.lng();
-      console.log(`${self.lat}, ${self.lng}`);
     },
   },
   created() {
