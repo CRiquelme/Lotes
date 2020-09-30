@@ -5,6 +5,8 @@ import Registro from "@/views/Registro";
 import Home from "@/views/Home";
 import Perfil from "@/views/Perfil";
 import Publicar from "@/views/Publicar";
+import PerfilUsuario from "@/views/PerfilUsuario";
+import PerfilPropiedad from "@/views/PerfilPropiedad";
 // import firebase from "firebase";
 Vue.use(Router);
 
@@ -33,6 +35,11 @@ const router = new Router({
     },
 
     {
+      path: "/",
+      name: "Home",
+      component: Home,
+    },
+    {
       path: "/Perfil",
       name: "Perfil",
       component: Perfil,
@@ -40,6 +47,8 @@ const router = new Router({
         autentificado: true,
       },
     },
+    { path: "/Perfil/:id", component: PerfilUsuario },
+    { path: "/propiedad/:id", component: PerfilPropiedad },
     {
       path: "/publicar",
       name: "Publicar",
