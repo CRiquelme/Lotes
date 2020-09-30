@@ -1,9 +1,10 @@
 <template>
-  <section>Paso 1</section>
+  <section></section>
 </template>
 
 <script>
 export default {};
 </script>
 
-<style></style>
+<style>
+</style>
