@@ -68,8 +68,9 @@
                 <GmapMarker
                   :position="selectedCenter"
                   :draggable="true"
-                  @dragend="coordenadasManuales()"
+                  @dragend="CorrdManual()"
                   ref="GoogleMrkr"
+                  id="GoogleMrkr"
                 />
           </GmapMap>
         </div>
@@ -473,9 +474,10 @@
           this.selectedZoom=15
       },
 
-      coordenadasManuales()
+      CorrdManual()
       {
-        console.log(this.selectedCenter.lat)
+        const marker=document.getElementById("GoogleMrkr")
+        console.log(marker)
       }
     },
     created () {
