@@ -9,41 +9,13 @@
             <span class="inline-block px-3 text-base">Home</span>
           </router-link>
         </li>
-        <li>
-          <router-link to="/perfil" class="inline-block">
-            <span class="inline-block px-3 text-base">Perfil</span>
-          </router-link>
-        </li>
-        <vk-breadcrumb-item>Datos personales</vk-breadcrumb-item>
+        <vk-breadcrumb-item>Perfil</vk-breadcrumb-item>
       </vk-breadcrumb>
 
       <!-- Título -->
       <div class="flex items-center px-8 lg:px-0">
         <h1 class="text-4xl uppercase mt-10 text-black font-black">Perfil</h1>
-        <vk-button @click="show = true" type="text">
-          <i class="fas fa-bars text-red-800"></i>
-        </vk-button>
       </div>
-
-      <!-- Barra izquierda -->
-      <vk-offcanvas-content id="menu_perfil">
-        <vk-offcanvas flipped :show.sync="show">
-          <vk-offcanvas-close @click="show = false"></vk-offcanvas-close>
-          <vk-nav>
-            <li class="text-2xl uppercase text-blue-800 font-medium">
-              Perfil personal
-            </li>
-            <li class="text-blue-800 text-lg">
-              <router-link to="/perfil">
-                <i class="fas fa-angle-right"></i> Datos personales
-              </router-link>
-              <router-link to="/publicar">
-                <i class="fas fa-angle-right"></i> Publicar propiedad
-              </router-link>
-            </li>
-          </vk-nav>
-        </vk-offcanvas>
-      </vk-offcanvas-content>
 
       <form
         class="bg-white shadow-md rounded px-8 md:pt-6 pb-8 mb-4"
@@ -139,7 +111,11 @@
               alt="Sunset in the mountains"
             />
             <div class="px-6 py-4">
-              <div class="font-bold text-xl mb-2">Título de propiedad</div>
+              <div class="font-bold text-xl mb-2">
+                <router-link :to="'/PerfilPropiedad/' + propiedad.propid">
+                  {{ propiedad.tipo }} - Provincia
+                </router-link>
+              </div>
               <p class="text-gray-700 text-base">Acá irá la descripción....</p>
             </div>
             <div class="px-6 pt-4 pb-2">

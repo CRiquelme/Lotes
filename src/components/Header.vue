@@ -11,8 +11,8 @@
         </div>
         <div>
           <ul class="flex">
-            <li>
-              <router-link to="/home" class="inline-block py-1 px-5">
+            <li class="inline-block py-1 px-5">
+              <router-link to="/">
                 <i class="fas fa-home text-white"></i>
                 <span class="inline-block py-1 px-3 text-white text-base"
                   >Home</span
@@ -58,26 +58,6 @@
                 >
               </router-link>
             </li>
-
-            <li class="py-1 px-3">
-              <vk-button @click="show = true" type="text">
-                <i class="fas fa-bars text-white pt-2"></i>
-              </vk-button>
-              <vk-offcanvas-content>
-                <vk-offcanvas flipped :show.sync="show">
-                  <vk-offcanvas-close
-                    @click="show = false"
-                  ></vk-offcanvas-close>
-                  <vk-nav>
-                    <vk-nav-item-header title="Header"></vk-nav-item-header>
-                    <vk-nav-item href="#" title="Item"></vk-nav-item>
-                    <vk-nav-item href="#" title="Item"></vk-nav-item>
-                    <vk-nav-item-divider></vk-nav-item-divider>
-                    <vk-nav-item title="Salir" @click="logout"></vk-nav-item>
-                  </vk-nav>
-                </vk-offcanvas>
-              </vk-offcanvas-content>
-            </li>
           </ul>
         </div>
       </div>
@@ -98,13 +78,13 @@ export default {
       show: false,
     };
   },
-  created: function() {
+  created: function () {
     var user = f.auth().currentUser;
     let self = this;
     if (user != null) {
       self.uid = user.uid;
       let dUser = db.collection("users").doc(user.uid);
-      dUser.get().then(function(doc) {
+      dUser.get().then(function (doc) {
         if (doc.exists) {
           self.datosUser = doc.data();
         }

@@ -14,7 +14,7 @@ const router = new Router({
   mode: "history",
   routes: [
     {
-      path: "/",
+      path: "/home",
       name: "Home",
       component: Home,
     },
@@ -48,7 +48,7 @@ const router = new Router({
       },
     },
     { path: "/Perfil/:id", component: PerfilUsuario },
-    { path: "/propiedad/:id", component: PerfilPropiedad },
+    { path: "/PerfilPropiedad/:id", component: PerfilPropiedad },
     {
       path: "/publicar",
       name: "Publicar",

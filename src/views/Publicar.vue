@@ -16,51 +16,113 @@
           class="flex flex-row flex-wrap"
         >
           <!-- Listas -->
-          <div class="w-1/2 flex flex-col">
-            <span>
-              Provincia:
-              <select name="Provincia" id="selectPrv" @change="ProvinciaChange">
-                <option v-for="pr in provincias" :key="pr.key" :value="pr.key">
-                  {{ pr.value }}
-                </option>
-              </select>
-            </span>
-            <span>
-              Cantón:
-              <select
-                v-if="cantones"
-                @change="CantonChange"
-                name="Cantones"
-                id="selectCtn"
-              >
-                <option v-for="ct in cantones" :key="ct.key" :value="ct.key">
-                  {{ ct.value }}
-                </option>
-              </select>
-            </span>
-            <span>
-              Distrito:
-              <select
-                v-if="distritos"
-                @change="DistritoChange"
-                name="Distritos"
-                id="selectDtt"
-              >
-                <option v-for="dt in distritos" :key="dt.key" :value="dt.key">
-                  {{ dt.value }}
-                </option>
-              </select>
-            </span>
-            <label for="lat"
-              >Latitud: <input type="text" id="lat" v-model="lat" disabled
-            /></label>
-            <label for="lng"
-              >Longitud: <input type="text" id="lng" v-model="lng" disabled
-            /></label>
+          <div class="w-1/2 flex flex-col pr-10">
+            <div class="md:flex md:items-center">
+              <div class="md:w-1/5">
+                <label class="text-lg" for="selectPrv">Provincia: </label>
+              </div>
+              <div class="md:w-4/5">
+                <select
+                  name="Provincia"
+                  id="selectPrv"
+                  @change="ProvinciaChange"
+                  class="uk-select"
+                >
+                  <option
+                    v-for="pr in provincias"
+                    :key="pr.key"
+                    :value="pr.key"
+                  >
+                    {{ pr.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!-- Provincia -->
+
+            <div class="md:flex md:items-center mt-5">
+              <div class="md:w-1/5">
+                <label class="text-lg" for="selectCtn">Cantón: </label>
+              </div>
+              <div class="md:w-4/5">
+                <select
+                  v-if="cantones"
+                  @change="CantonChange"
+                  name="Cantones"
+                  id="selectCtn"
+                  class="uk-select"
+                >
+                  <option v-for="ct in cantones" :key="ct.key" :value="ct.key">
+                    {{ ct.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!-- Cantón -->
+
+            <div class="md:flex md:items-center mt-5">
+              <div class="md:w-1/5">
+                <label class="text-lg" for="selectDtt">Distrito: </label>
+              </div>
+              <div class="md:w-4/5">
+                <select
+                  v-if="distritos"
+                  @change="DistritoChange"
+                  name="Distritos"
+                  id="selectDtt"
+                  class="uk-select"
+                >
+                  <option v-for="dt in distritos" :key="dt.key" :value="dt.key">
+                    {{ dt.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!-- Distrito -->
+
+            <div class="md:flex md:items-center mt-5">
+              <div class="md:w-1/5">
+                <label class="text-lg" for="lat">Latitud: </label>
+              </div>
+              <div class="md:w-4/5">
+                <input
+                  type="text"
+                  id="lat"
+                  class="uk-input"
+                  v-model="lat"
+                  disabled
+                />
+              </div>
+            </div>
+            <!-- Latitud -->
+
+            <div class="md:flex md:items-center mt-5">
+              <div class="md:w-1/5">
+                <label class="text-lg" for="lng">Longitud: </label>
+              </div>
+              <div class="md:w-4/5">
+                <input
+                  type="text"
+                  id="lng"
+                  class="uk-input"
+                  v-model="lng"
+                  disabled
+                />
+              </div>
+            </div>
+            <!-- Longitud -->
           </div>
 
           <!-- Mapa -->
           <div class="w-1/2">
+            <button
+              type="button"
+              class="uk-button uk-button-secondary uk-button-large uk-width-1-1"
+              @click="locatorButtonPressed"
+            >
+              <i class="fas fa-map-marked"></i> Buscar ubicación cerca de tu
+              posición actual
+            </button>
             <GmapMap
               :center="selectedCenter"
               :zoom="selectedZoom"
@@ -242,7 +304,7 @@
       </div>
 
       <!-- Acción de pasos -->
-      <div class="steps-action">
+      <div class="steps-action flex justify-between">
         <a-button v-if="current > 0" style="margin-left: 8px" @click="prev">
           Anterior
         </a-button>
@@ -383,7 +445,7 @@ export default {
       selectedZoom: 7,
 
       lat: 10,
-      lng:-84,
+      lng: -84,
     };
   },
   methods: {
@@ -427,8 +489,8 @@ export default {
           lat: x.results[0].geometry.location.lat,
           lng: x.results[0].geometry.location.lng,
         };
-        this.lat=x.results[0].geometry.location.lat
-        this.lng= x.results[0].geometry.location.lng
+        this.lat = x.results[0].geometry.location.lat;
+        this.lng = x.results[0].geometry.location.lng;
       });
 
       //llena lista desplegable de cantones
@@ -465,8 +527,8 @@ export default {
           lat: x.results[0].geometry.location.lat,
           lng: x.results[0].geometry.location.lng,
         };
-        this.lat=x.results[0].geometry.location.lat
-        this.lng= x.results[0].geometry.location.lng
+        this.lat = x.results[0].geometry.location.lat;
+        this.lng = x.results[0].geometry.location.lng;
       });
 
       //llena lista desplegable de Distritos
@@ -507,8 +569,8 @@ export default {
           lat: x.results[0].geometry.location.lat,
           lng: x.results[0].geometry.location.lng,
         };
-        this.lat=x.results[0].geometry.location.lat
-        this.lng= x.results[0].geometry.location.lng
+        this.lat = x.results[0].geometry.location.lat;
+        this.lng = x.results[0].geometry.location.lng;
       });
       this.selectedZoom = 15;
     },
@@ -517,6 +579,22 @@ export default {
       let self = this;
       self.lat = evnt.lat();
       self.lng = evnt.lng();
+    },
+
+    locatorButtonPressed() {
+      let self = this;
+      navigator.geolocation.getCurrentPosition((pos) => {
+        self.lng = pos.coords.longitude;
+        self.lat = pos.coords.latitude;
+      });
+      Vue.$geocoder.send(() => {
+        self.selectedCenter = {
+          lat: self.lat,
+          lng: self.lng,
+        };
+      });
+      console.log(self.selectedCenter);
+      this.selectedZoom = 15;
     },
   },
   created() {
