@@ -15,7 +15,7 @@
           v-show="steps[current].title === 'Paso 1'"
           class="flex flex-row flex-wrap"
         >
-          <!-- Listas -->
+          <!-- Provincia -->
           <div class="w-1/2 flex flex-col pr-10">
             <div class="md:flex md:items-center">
               <div class="md:w-1/5">
@@ -30,15 +30,16 @@
                 >
                   <option
                     v-for="pr in provincias"
-                    :key="pr.key"
-                    :value="pr.key"
+                    :key="pr"
+                    :value="pr"
                   >
-                    {{ pr.value }}
+                    {{ pr }}
                   </option>
                 </select>
               </div>
             </div>
-            <!-- Provincia -->
+            
+            <!-- Cantón -->
 
             <div class="md:flex md:items-center mt-5">
               <div class="md:w-1/5">
@@ -52,14 +53,14 @@
                   id="selectCtn"
                   class="uk-select"
                 >
-                  <option v-for="ct in cantones" :key="ct.key" :value="ct.key">
-                    {{ ct.value }}
+                  <option v-for="ct in cantones" :key="ct" :value="ct">
+                    {{ ct }}
                   </option>
                 </select>
               </div>
             </div>
-            <!-- Cantón -->
-
+            
+            <!-- Distrito -->
             <div class="md:flex md:items-center mt-5">
               <div class="md:w-1/5">
                 <label class="text-lg" for="selectDtt">Distrito: </label>
@@ -72,13 +73,32 @@
                   id="selectDtt"
                   class="uk-select"
                 >
-                  <option v-for="dt in distritos" :key="dt.key" :value="dt.key">
-                    {{ dt.value }}
+                  <option v-for="dt in distritos" :key="dt" :value="dt">
+                    {{ dt }}
                   </option>
                 </select>
               </div>
             </div>
-            <!-- Distrito -->
+
+            <!--Barrio -->
+            <div class="md:flex md:items-center mt-5">
+              <div class="md:w-1/5">
+                <label class="text-lg" for="selectBrr">Barrio: </label>
+              </div>
+              <div class="md:w-4/5">
+                <select
+                  v-if="barrios"
+                  @change="BarrioChange"
+                  name="Barrios"
+                  id="selectBrr"
+                  class="uk-select"
+                >
+                  <option v-for="br in barrios" :key="br" :value="br">
+                    {{ br }}
+                  </option>
+                </select>
+              </div>
+            </div>
 
             <div class="md:flex md:items-center mt-5">
               <div class="md:w-1/5">
@@ -100,6 +120,7 @@
               <div class="md:w-1/5">
                 <label class="text-lg" for="lng">Longitud: </label>
               </div>
+              
               <div class="md:w-4/5">
                 <input
                   type="text"
@@ -110,7 +131,7 @@
                 />
               </div>
             </div>
-            <!-- Longitud -->
+            
           </div>
 
           <!-- Mapa -->
@@ -329,6 +350,7 @@
 
 <script>
 import Vue from "vue";
+import PROVINCIAS from "@/Listados.js"
 export default {
   data() {
     return {
@@ -437,9 +459,10 @@ export default {
       ],
       tipoMedida: [{ titulo: "Metros cuadrados" }, { titulo: "Héctareas" }],
 
-      provincias: [],
+      provincias:[],
       cantones: [],
       distritos: [],
+      barrios:[],
 
       selectedCenter: { lat: 10, lng: -84 },
       selectedZoom: 7,
@@ -471,94 +494,11 @@ export default {
     },
 
     //Métodos paso 1
-
-    ProvinciaChange() {
-      //recupera coordenadas
-      const selectedCity = document.getElementById("selectPrv")
-        .selectedOptions[0].outerText;
-      var addressObj = {
-        address_line_1: "",
+    RecuperaCoord(selectedCity,selectedCanton,selectedDistrito,selectedBarrio){
+      
+      const addressObj = {
+        address_line_1: selectedBarrio,
         address_line_2: "",
-        city: selectedCity,
-        state: "",
-        zip_code: "",
-        country: "Costa Rica",
-      };
-      Vue.$geocoder.send(addressObj, (x) => {
-        this.selectedCenter = {
-          lat: x.results[0].geometry.location.lat,
-          lng: x.results[0].geometry.location.lng,
-        };
-        this.lat = x.results[0].geometry.location.lat;
-        this.lng = x.results[0].geometry.location.lng;
-      });
-
-      //llena lista desplegable de cantones
-      this.cantones = [];
-      this.distritos = [];
-      const link =
-        "https://ubicaciones.paginasweb.cr/provincia/" +
-        document.getElementById("selectPrv").value +
-        "/cantones.json";
-
-      fetch(link)
-        .then((ctns) => ctns.json())
-        .then((ctn) =>
-          Object.entries(ctn).forEach(([key, value]) =>
-            this.cantones.push({ key, value })
-          )
-        );
-      this.selectedZoom = 12;
-    },
-    CantonChange() {
-      //recupera coordenadas
-      const selectedCanton = document.getElementById("selectCtn")
-        .selectedOptions[0].outerText;
-      const selectedCity = document.getElementById("selectPrv")
-        .selectedOptions[0].outerText;
-      var addressObj = {
-        city: selectedCity,
-        state: selectedCanton,
-        zip_code: "",
-        country: "Costa Rica",
-      };
-      Vue.$geocoder.send(addressObj, (x) => {
-        this.selectedCenter = {
-          lat: x.results[0].geometry.location.lat,
-          lng: x.results[0].geometry.location.lng,
-        };
-        this.lat = x.results[0].geometry.location.lat;
-        this.lng = x.results[0].geometry.location.lng;
-      });
-
-      //llena lista desplegable de Distritos
-      this.distritos = [];
-      const link =
-        "https://ubicaciones.paginasweb.cr/provincia/" +
-        document.getElementById("selectPrv").value +
-        "/canton/" +
-        document.getElementById("selectCtn").value +
-        "/distritos.json";
-
-      fetch(link)
-        .then((dtrs) => dtrs.json())
-        .then((dtr) =>
-          Object.entries(dtr).forEach(([key, value]) =>
-            this.distritos.push({ key, value })
-          )
-        );
-
-      this.selectedZoom = 12;
-    },
-    DistritoChange() {
-      //recupera coordenadas
-      const selectedDistrito = document.getElementById("selectDtt")
-        .selectedOptions[0].outerText;
-      const selectedCanton = document.getElementById("selectCtn")
-        .selectedOptions[0].outerText;
-      const selectedCity = document.getElementById("selectPrv")
-        .selectedOptions[0].outerText;
-      var addressObj = {
         city: selectedCity,
         state: selectedCanton,
         zip_code: selectedDistrito,
@@ -572,7 +512,72 @@ export default {
         this.lat = x.results[0].geometry.location.lat;
         this.lng = x.results[0].geometry.location.lng;
       });
+    },
+
+    ProvinciaChange() {
+      const selectedCity = document.getElementById("selectPrv").selectedOptions[0].outerText;
+      
+      this.RecuperaCoord(selectedCity,"","","")
+
+      //llena lista desplegable de cantones
+      this.cantones = [];
+      this.distritos = [];
+      this.barrios=[];
+      const indexPrv=document.getElementById("selectPrv").selectedIndex-1
+
+      this.cantones.push("")
+      PROVINCIAS[indexPrv].cantones.forEach(ctn=>this.cantones.push(ctn.nombre))
+
+      this.selectedZoom = 12;
+    },
+    CantonChange() {
+      this.distritos = [];
+      this.barrios=[];
+      const selectedCity = document.getElementById("selectPrv").selectedOptions[0].outerText;
+      const selectedCanton = document.getElementById("selectCtn").selectedOptions[0].outerText
+      
+      this.RecuperaCoord(selectedCity,selectedCanton,"","")
+
+
+      //llena lista desplegable de Distritos
+      this.distritos = [];
+      const indexPrv=document.getElementById("selectPrv").selectedIndex-1
+      const indexCtn=document.getElementById("selectCtn").selectedIndex-1
+
+      this.distritos.push("")
+      PROVINCIAS[indexPrv].cantones[indexCtn].distritos.forEach(dtt=>this.distritos.push(dtt.nombre))
+
+      this.selectedZoom = 10;
+    },
+    DistritoChange() {
+      const selectedCity = document.getElementById("selectPrv").selectedOptions[0].outerText;
+      const selectedCanton = document.getElementById("selectCtn").selectedOptions[0].outerText
+      const selectedDistrito = document.getElementById("selectDtt").selectedOptions[0].outerText
+      
+      this.RecuperaCoord(selectedCity,selectedCanton,selectedDistrito,"")
+
+      //llena lista desplegable de Barrios
+      this.barrios = [];
+      const indexPrv=document.getElementById("selectPrv").selectedIndex-1
+      const indexCtn=document.getElementById("selectCtn").selectedIndex-1
+      const indexDtt=document.getElementById("selectDtt").selectedIndex-1
+
+      this.barrios.push("")
+
+      PROVINCIAS[indexPrv].cantones[indexCtn].distritos[indexDtt].barrios.forEach(br=>this.barrios.push(br))
+      
+      this.selectedZoom = 13;
+    },
+    BarrioChange(){
+      const selectedCity = document.getElementById("selectPrv").selectedOptions[0].outerText;
+      const selectedCanton = document.getElementById("selectCtn").selectedOptions[0].outerText
+      const selectedDistrito = document.getElementById("selectDtt").selectedOptions[0].outerText
+      const selectedBarrio = document.getElementById("selectBrr").selectedOptions[0].outerText
+      
+      this.RecuperaCoord(selectedCity,selectedCanton,selectedDistrito,selectedBarrio)
+      
       this.selectedZoom = 15;
+
     },
 
     coordenadasManuales(evnt) {
@@ -598,48 +603,12 @@ export default {
     },
   },
   created() {
-    //provincias inicial
-    fetch("https://ubicaciones.paginasweb.cr/provincias.json")
-      .then((prvs) => prvs.json())
-      .then((ps) =>
-        Object.entries(ps).forEach(([key, value]) =>
-          this.provincias.push({ key, value })
-        )
-      )
-      .then(() => {
-        //cantones inicial
-        let link =
-          "https://ubicaciones.paginasweb.cr/provincia/" +
-          document.getElementById("selectPrv").value +
-          "/cantones.json";
-
-        fetch(link)
-          .then((ctns) => ctns.json())
-          .then((ctn) =>
-            Object.entries(ctn).forEach(([key, value]) =>
-              this.cantones.push({ key, value })
-            )
-          )
-          .then(() => {
-            //Distritos inicial
-            const link =
-              "https://ubicaciones.paginasweb.cr/provincia/" +
-              document.getElementById("selectPrv").value +
-              "/canton/" +
-              document.getElementById("selectCtn").value +
-              "/distritos.json";
-
-            fetch(link)
-              .then((dtrs) => dtrs.json())
-              .then((dtr) =>
-                Object.entries(dtr).forEach(([key, value]) =>
-                  this.distritos.push({ key, value })
-                )
-              );
-          });
-      });
+    this.provincias.push("")
+    PROVINCIAS.forEach(prv=>this.provincias.push(prv.nombre))
   },
+
   updated() {
+    
     this.$refs.mapRef.$mapPromise.then((map) => (this.map = map));
   },
 };
