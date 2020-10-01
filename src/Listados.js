@@ -141,6 +141,13 @@ const PROVINCIAS=
                             ]
                         },
                         {
+                            nombre:"San Miguel",
+                            barrios:
+                            [
+                                "Calle Ciénagas", "Capri", "Cruce", "Damas Israelitas", "El Hoyo", "El Llano", "Emperador", "Fátima", "Girasol", "Guatuso", "Jericó", "Jiménez (comparte con Los Guido)", "La Pradera", "Las Américas", "Lindavista", "Los Ángeles", "Los Pinos", "Peñascal", "Rinconada", "Roblar", "Rodillal", "Sabanilla", "San Gerardo", "San Miguel (centro)", "San Martín", "Santa Bárbara", "Santa Eduviges", "Santísima Trinidad", "Valverde", "El Huazo"
+                            ]
+                        },
+                        {
                             nombre:"",
                             barrios:
                             [
