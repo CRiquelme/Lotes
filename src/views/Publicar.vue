@@ -245,25 +245,48 @@
                 Te recomendamos subir fotografías de: La mejor vista, el acceso,
                 de frente y desde arriba
               </label>
+              <div class="clearfix">
+                <a-upload
+                  action="gs://cr-lotes.appspot.com/"
+                  list-type="picture-card"
+                  :file-list="fileList"
+                  @preview="handlePreview"
+                  @change="handleChange"
+                >
+                  <div v-if="fileList.length < 4">
+                    <a-icon type="plus" />
+                    <div class="ant-upload-text">Subir</div>
+                  </div>
+                </a-upload>
+                <a-modal
+                  :visible="previewVisible"
+                  :footer="null"
+                  @cancel="handleCancel"
+                >
+                  <img alt="example" style="width: 100%" :src="previewImage" />
+                </a-modal>
+              </div>
             </div>
 
             <!-- Pregunta 2 -->
             <div class="my-4">
               <label class="text-lg">La mayoría del terreno está:</label>
-              <div class="uk-form-controls">
+              <div class="flex hiddenradiosimple">
                 <label
-                  class="block"
-                  v-for="(nivel, iNivel) in nivelCalle"
-                  :key="iNivel"
-                  ><input
-                    class="uk-radio"
+                  v-for="nivel in nivelCalle"
+                  :key="nivel.titulo"
+                  class="flex-auto place-self-center"
+                >
+                  <input
+                    class="uk-radio place-self-center"
                     type="radio"
                     name="nivel_terreno"
-                    :value="nivel"
+                    :value="nivel.titulo"
                     v-model="nivel_terreno"
                   />
-                  {{ nivel.titulo }}</label
-                >
+                  {{ nivel.titulo }}
+                  <img :src="nivel.img" class="place-self-center" />
+                </label>
               </div>
             </div>
 
@@ -275,11 +298,16 @@
                 posición de la rodilla</label
               >
               <div
-                class="uk-grid-large uk-child-width-1-3@s uk-child-width-1-6@m uk-flex-center uk-text-left hiddenradio"
+                class="uk-grid-large uk-child-width-1-6@s uk-child-width-1-6@m uk-flex-center uk-text-left hiddenradio"
                 uk-grid
               >
                 <label v-for="it in imagenesTopografia" :key="it.valor">
-                  <input type="radio" v-model="topografia" :value="it.valor" />
+                  <input
+                    class="uk-radio"
+                    type="radio"
+                    v-model="topografia"
+                    :value="it.valor"
+                  />
                   <img :src="it.img" />
                 </label>
               </div>
@@ -318,8 +346,13 @@
         <a-button
           v-if="current == steps.length - 1"
           type="primary"
-          @click="$message.success('¡Proceso completo!')"
+          @click="guardarForm()"
         >
+          <!-- <a-button
+          v-if="current == steps.length - 1"
+          type="primary"
+          @click="$message.success('¡Proceso completo!')"
+        > -->
           Publicar
         </a-button>
       </div>
@@ -329,6 +362,14 @@
 
 <script>
 import Vue from "vue";
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+}
 export default {
   data() {
     return {
@@ -431,9 +472,18 @@ export default {
         },
       ],
       nivelCalle: [
-        { titulo: "Bajo nivel de calle" },
-        { titulo: "Sobre nivel de la calle" },
-        { titulo: "A nivel de la calle" },
+        {
+          titulo: "Bajo nivel de calle",
+          img: "/images/bajo_nivel_de_calle.png",
+        },
+        {
+          titulo: "Sobre nivel de la calle",
+          img: "/images/sobre_nivel_de_la_calle.png",
+        },
+        {
+          titulo: "A nivel de la calle",
+          img: "/images/a_nivel_de_la_calle.png",
+        },
       ],
       tipoMedida: [{ titulo: "Metros cuadrados" }, { titulo: "Héctareas" }],
 
@@ -596,6 +646,25 @@ export default {
       console.log(self.selectedCenter);
       this.selectedZoom = 15;
     },
+
+    // Guardar formulario
+    handleCancel() {
+      this.previewVisible = false;
+    },
+    async handlePreview(file) {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj);
+      }
+      this.previewImage = file.url || file.preview;
+      this.previewVisible = true;
+    },
+    handleChange({ fileList }) {
+      this.fileList = fileList;
+    },
+
+    guardarForm() {
+      console.log("guardando...");
+    },
   },
   created() {
     //provincias inicial
@@ -672,11 +741,22 @@ export default {
   color: #666;
 }
 
-.hiddenradio [type="radio"] {
+.hiddenradio [type="radio"],
+.hiddenradiosimple [type="radio"] {
   position: absolute;
   opacity: 0;
   width: 0;
   height: 0;
+}
+.hiddenradiosimple [type="radio"] + img {
+  position: relative;
+  cursor: pointer;
+  max-height: 300px;
+  height: 90%;
+  width: 90%;
+  transform: scale(1);
+  transition: all 300ms ease;
+  z-index: 1;
 }
 .hiddenradio [type="radio"] + img {
   position: relative;
@@ -695,10 +775,16 @@ export default {
   z-index: 3;
   background-color: white;
 }
-.hiddenradio [type="radio"]:checked + img {
+
+.hiddenradiosimple [type="radio"] + img:hover {
+  transform: scale(1.1);
+  z-index: 3;
+}
+.hiddenradio [type="radio"]:checked + img,
+.hiddenradiosimple [type="radio"]:checked + img {
   outline: 1px solid rgb(5, 56, 12);
+  filter: drop-shadow(0px 7px 7px #000);
   transform: scale(1);
-  background-color: white;
   filter: none;
 }
 </style>
