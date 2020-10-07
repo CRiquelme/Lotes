@@ -83,7 +83,7 @@
                 <GmapMarker
                     :key="index"
                     v-for="(p, index) in propiedades"
-                    :position={lat:p.latitud,lng:p.longitud}
+                    :position={lat:p.lat,lng:p.lng}
                     :data-id=p.id
                     @click="SelecetPropiedad()"
                     />
@@ -225,15 +225,15 @@
                 this.propiedades=[]
                 this.$refs.mapRef.$mapPromise
                 .then(map=>{
-
-                    this.minLat=map.getBounds().Ya.i
+                    const minLat=map.getBounds().Ya.i
                     const maxLat=map.getBounds().Ya.j
                     const minLng=map.getBounds().Sa.i
                     const maxLng=map.getBounds().Sa.j
                     
-                    this.QueryFirebase(this.CbxApartamento,"Apartamento",this.minLat,maxLat,minLng,maxLng)
-                    this.QueryFirebase(this.CbxCasa,"Casa",this.minLat,maxLat,minLng,maxLng)
-                    this.QueryFirebase(this.CbxLote,"Lote",this.minLat,maxLat,minLng,maxLng)
+                    
+                    this.QueryFirebase(this.CbxApartamento,"Apartamento",minLat,maxLat,minLng,maxLng)
+                    this.QueryFirebase(this.CbxCasa,"Casa",minLat,maxLat,minLng,maxLng)
+                    this.QueryFirebase(this.CbxLote,"Lote",minLat,maxLat,minLng,maxLng)
                 } )
             },
             QueryFirebase(chkbx,t,minLat,maxLat,minLng,maxLng){
@@ -243,17 +243,13 @@
                     .limit(100)
                     .get()
                     .then((props)=>{props.forEach(prop=>{
-                        const propLat=prop.data().latitud
-                        const propLng=prop.data().longitud
+                        const propLat=prop.data().lat
+                        const propLng=prop.data().lng
                         if (propLat > minLat && 
                             propLat < maxLat && 
                             propLng > minLng &&
                             propLng < maxLng){
                                 this.propiedades.push(prop.data())
-                            //this.propiedades.push({
-                            //    lat:propLat,
-                            //    lng:propLng
-                            //})
                         }                        
                     })})
                 }

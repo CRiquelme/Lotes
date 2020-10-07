@@ -928,6 +928,7 @@ export default {
       db.collection("propiedades")
         .add({
           uid: user.uid,
+          tipo:"Lote",
           provincia: selectedCity,
           canton:selectedCanton,
           distrito:selectedDistrito,
