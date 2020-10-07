@@ -1,7 +1,7 @@
 <template>
   <section>
-    <div class="container mx-auto md:py-10">
-      <h1 class="font-black uppercase">Publicar en CR-Lotes</h1>
+    <div class="container mx-auto md:py-10 mb-10 px-5">
+      <h1 class="font-black uppercase text-2xl my-10">Publicar en CR-Lotes</h1>
 
       <!-- Pasos -->
       <a-steps :current="current">
@@ -13,10 +13,10 @@
         <!-- Paso 1 -->
         <div
           v-show="steps[current].title === 'Paso 1'"
-          class="flex flex-row flex-wrap"
+          class="flex flex-col md:flex-row flex-wrap"
         >
           <!-- Listas -->
-          <div class="w-1/2 flex flex-col pr-10">
+          <div class="w-full mb-5 md:w-1/2 flex flex-col md:pr-10">
             <div class="md:flex md:items-center">
               <div class="md:w-1/5">
                 <label class="text-lg" for="selectPrv">Provincia: </label>
@@ -111,13 +111,15 @@
               </div>
             </div>
             <!-- Longitud -->
+
+            <!-- tipoPropiedad -->
           </div>
 
           <!-- Mapa -->
-          <div class="w-1/2">
+          <div class="w-full md:w-1/2">
             <button
               type="button"
-              class="uk-button uk-button-secondary uk-button-large uk-width-1-1"
+              class="uk-button uk-button-secondary uk-width-1-1 leading-4"
               @click="locatorButtonPressed"
             >
               <i class="fas fa-map-marked"></i> Buscar ubicación cerca de tu
@@ -145,9 +147,9 @@
         <div v-show="steps[current].title === 'Paso 2'">
           <section id="paso2">
             <!-- Pregunta 1 -->
-            <div class="uk-column-1-2">
+            <div class="md:flex">
               <!-- ¿Cuál es el área del terreno? -->
-              <div class="md:flex md:items-center">
+              <div class="flex md:items-center w-full md:w-2/3">
                 <div class="md:w-2/5">
                   <label class="text-lg" for="area_terreno"
                     >¿Cuál es el área del terreno?</label
@@ -167,7 +169,7 @@
                 </div>
               </div>
               <!-- Tipo de medida -->
-              <div class="uk-form-controls mt-5">
+              <div class="uk-form-controls md:ml-5 w-full md:w-2/3">
                 <label
                   class="block"
                   v-for="(tipoMedida, itipoMedida) in tipoMedida"
@@ -214,7 +216,9 @@
                   {{ frente_terreno_acceso }}</span
                 ></label
               >
-              <div class="uk-inline uk-light w-2/3 justify-self-center">
+              <div
+                class="uk-inline uk-light w-1/1 md:w-2/3 justify-self-center"
+              >
                 <img
                   src="/images/frente_terreno.jpeg"
                   class="justify-self-center"
@@ -245,33 +249,106 @@
                 Te recomendamos subir fotografías de: La mejor vista, el acceso,
                 de frente y desde arriba
               </label>
-              <div class="clearfix">
-                <a-upload
-                  action="gs://cr-lotes.appspot.com/"
-                  list-type="picture-card"
-                  :file-list="fileList"
-                  @preview="handlePreview"
-                  @change="handleChange"
-                >
-                  <div v-if="fileList.length < 4">
-                    <a-icon type="plus" />
-                    <div class="ant-upload-text">Subir</div>
-                  </div>
-                </a-upload>
-                <a-modal
-                  :visible="previewVisible"
-                  :footer="null"
-                  @cancel="handleCancel"
-                >
-                  <img alt="example" style="width: 100%" :src="previewImage" />
-                </a-modal>
+              <div class="uk-child-width-1-4@m mt-5">
+                <div class="uk-form-custom px-10 input_images">
+                  <label for="">La mejor vista</label>
+                  <input
+                    type="file"
+                    ref="file"
+                    id="blahfile1"
+                    @change="previewFile(1)"
+                    class="uk-width-1-1"
+                    accept="image/png, image/jpeg"
+                  />
+                  <input
+                    class="uk-input uk-form-width-medium uk-width-1-1"
+                    type="text"
+                    placeholder="Seleccione la fotografía"
+                    disabled
+                  />
+                  <img
+                    id="blah1"
+                    src="https://via.placeholder.com/250x150/000000/ffffff ?text=Mejor vista"
+                    alt="your image"
+                    class="preview_foto"
+                  />
+                </div>
+                <div class="uk-form-custom px-10 input_images">
+                  <label for="">El acceso</label>
+                  <input
+                    type="file"
+                    ref="file2"
+                    id="blahfile2"
+                    @change="previewFile(2)"
+                    class="uk-width-1-1"
+                    accept="image/png, image/jpeg"
+                  />
+                  <input
+                    class="uk-input uk-form-width-medium uk-width-1-1"
+                    type="text"
+                    placeholder="Seleccione la fotografía"
+                    disabled
+                  />
+                  <img
+                    id="blah2"
+                    src="https://via.placeholder.com/250x150/000000/ffffff ?text=El acceso"
+                    alt="your image"
+                    class="preview_foto"
+                  />
+                </div>
+                <div class="uk-form-custom px-10 input_images">
+                  <label for="">De frente</label>
+                  <input
+                    type="file"
+                    ref="file3"
+                    id="blahfile3"
+                    @change="previewFile(3)"
+                    class="uk-width-1-1"
+                    accept="image/png, image/jpeg"
+                  />
+                  <input
+                    class="uk-input uk-form-width-medium uk-width-1-1"
+                    type="text"
+                    placeholder="Seleccione la fotografía"
+                    disabled
+                  />
+                  <img
+                    id="blah3"
+                    src="https://via.placeholder.com/250x150/000000/ffffff ?text=De frente"
+                    alt="your image"
+                    class="preview_foto"
+                  />
+                </div>
+                <div class="uk-form-custom px-10 input_images">
+                  <label for="">Desde arriba</label>
+                  <input
+                    type="file"
+                    ref="file4"
+                    id="blahfile4"
+                    @change="previewFile(4)"
+                    class="uk-width-1-1"
+                    accept="image/png, image/jpeg"
+                  />
+                  <input
+                    class="uk-input uk-form-width-medium uk-width-1-1"
+                    type="text"
+                    placeholder="Seleccione la fotografía"
+                    disabled
+                  />
+                  <img
+                    id="blah4"
+                    src="https://via.placeholder.com/250x150/000000/ffffff ?text=Desde arriba"
+                    alt="your image"
+                    class="preview_foto"
+                  />
+                </div>
               </div>
             </div>
 
             <!-- Pregunta 2 -->
-            <div class="my-4">
+            <div class="my-4 mt-20">
               <label class="text-lg">La mayoría del terreno está:</label>
-              <div class="flex hiddenradiosimple">
+              <div class="flex flex-col md:flex-row hiddenradiosimple mt-5">
                 <label
                   v-for="nivel in nivelCalle"
                   :key="nivel.titulo"
@@ -291,8 +368,8 @@
             </div>
 
             <!-- Pregunta 3 -->
-            <div class="my-4">
-              <label for="" class="text-lg"
+            <div class="my-4 mt-20">
+              <label for="" class="text-lg mb-5"
                 >Mira que fácil... podremos decirle a los compradores la
                 topografía predominante de tu terreno, solo mira en la imagen la
                 posición de la rodilla</label
@@ -314,17 +391,31 @@
             </div>
 
             <!-- Pregunta 4 -->
-            <div class="py-4">
-              <p class="text-lg">
+            <div class="py-4 mt-20">
+              <p class="text-lg mb-5">
                 Opcional pero muy "Importante"... puedes adjuntar aquí
                 documentos del terreno, que sean públicos... "Eso si, te
                 advierto"... Si alguien se pone en contacto contigo y hace
                 mención de estos documentos casi seguro que estas bastante cerca
                 de vender.
               </p>
-              <div v-for="archivo in archivos" :key="archivo.id">
-                <label :for="archivo.id">{{ archivo.titulo }}</label>
-                <input type="file" :id="archivo.id" />
+              <div
+                v-for="archivo in archivos"
+                :key="archivo.id"
+                class="md:flex md:items-center"
+              >
+                <div class="md:w-1/5">
+                  <label :for="archivo.id">{{ archivo.titulo }}</label>
+                </div>
+                <div class="md:w-4/5">
+                  <input
+                    type="file"
+                    :id="archivo.id"
+                    ref="archivo.id"
+                    @change="archivosASubir(archivo.id)"
+                    accept="application/pdf"
+                  />
+                </div>
               </div>
             </div>
           </section>
@@ -346,7 +437,7 @@
         <a-button
           v-if="current == steps.length - 1"
           type="primary"
-          @click="guardarForm()"
+          @click="guardarForm"
         >
           <!-- <a-button
           v-if="current == steps.length - 1"
@@ -362,14 +453,9 @@
 
 <script>
 import Vue from "vue";
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-}
+import { db, f } from "@/firebase";
+import "firebase/auth";
+import Swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -486,11 +572,29 @@ export default {
         },
       ],
       tipoMedida: [{ titulo: "Metros cuadrados" }, { titulo: "Héctareas" }],
-
+      tipoPropiedad: [
+        { titulo: "Lote" },
+        { titulo: "Apartamento" },
+        { titulo: "Casa" },
+      ],
+      mejor_vista: "",
+      mejor_vista_url: "",
+      acceso: "",
+      acceso_url: "",
+      frente: "",
+      frente_url: "",
+      arriba: "",
+      arriba_url: "",
+      fotos: [],
+      archivosSubir: [],
       provincias: [],
       cantones: [],
       distritos: [],
-
+      file_plano_de_catastro: "",
+      file_uso_de_suelo: "",
+      file_disponibilidad_de_agua: "",
+      file_disponibilidad_electrica: "",
+      file_visado_municipal: "",
       selectedCenter: { lat: 10, lng: -84 },
       selectedZoom: 7,
 
@@ -519,9 +623,6 @@ export default {
       this.frente_terreno_acceso_id = dato;
       this.frente_terreno_acceso = frente_de_terreno[dato];
     },
-
-    //Métodos paso 1
-
     ProvinciaChange() {
       //recupera coordenadas
       const selectedCity = document.getElementById("selectPrv")
@@ -643,28 +744,260 @@ export default {
           lng: self.lng,
         };
       });
-      console.log(self.selectedCenter);
       this.selectedZoom = 15;
     },
 
     // Guardar formulario
-    handleCancel() {
-      this.previewVisible = false;
-    },
-    async handlePreview(file) {
-      if (!file.url && !file.preview) {
-        file.preview = await getBase64(file.originFileObj);
+    previewFile(id) {
+      let sizeFotoFlag = false;
+      let typeFotoFlag = false;
+      let self = this;
+      let file = document.getElementById("blahfile" + id).files[0];
+      let reader = new FileReader();
+      let preview = document.getElementById("blah" + id);
+      let sizeFoto = file.size / 1024 / 1024;
+
+      // Validación de tamaño
+      if (sizeFoto <= 1) {
+        sizeFotoFlag = true;
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Estás intentanto subir una fotografía superior a 1mb",
+          position: "top-end",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
-      this.previewImage = file.url || file.preview;
-      this.previewVisible = true;
+
+      // Validación de formato
+      if (
+        file.type === "image/png" ||
+        file.type === "image/jpg" ||
+        file.type === "image/jpeg"
+      ) {
+        typeFotoFlag = true;
+      } else {
+        Swal.fire({
+          title: "Error",
+          text:
+            "Estás intentanto subir un formato no permitido, se permite .jpg, .jpeg y .png",
+          position: "top-end",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+
+      // Cuando pase el filtro del tipo y del tamaño de foto
+      if (typeFotoFlag && sizeFotoFlag) {
+        reader.onloadend = function () {
+          preview.src = reader.result;
+        };
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
+        if (id == 1) {
+          self.mejor_vista = self.$refs.file.files[0].name;
+          self.fotos.push(self.$refs.file.files[0]); // fotos array que se recorre en guardarForm
+        }
+        if (id == 2) {
+          self.acceso = self.$refs.file2.files[0].name;
+          self.fotos.push(self.$refs.file2.files[0]); // fotos array que se recorre en guardarForm
+        }
+        if (id == 3) {
+          self.frente = self.$refs.file3.files[0].name;
+          self.fotos.push(self.$refs.file3.files[0]); // fotos array que se recorre en guardarForm
+        }
+        if (id == 4) {
+          self.arriba = self.$refs.file4.files[0].name;
+          self.fotos.push(self.$refs.file4.files[0]); // fotos array que se recorre en guardarForm
+        }
+      } else {
+        preview.src = "";
+      }
     },
-    handleChange({ fileList }) {
-      this.fileList = fileList;
+
+    archivosASubir(idArchivo) {
+      // Los documentos
+      let self = this;
+      let fileDoc = document.getElementById(idArchivo).files[0];
+      let reader = new FileReader();
+
+      if (fileDoc) {
+        reader.readAsDataURL(fileDoc);
+        if (idArchivo === "file_plano_de_catastro") {
+          if (fileDoc.type === "application/pdf") {
+            self.file_plano_de_catastro = fileDoc.name;
+            self.archivosSubir.push(fileDoc);
+          } else {
+            Swal.fire({
+              title: "Error",
+              text:
+                "Estás intentanto subir un formato no permitido, se permite .pdf",
+              position: "top-end",
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            document.getElementById(idArchivo).value = null;
+          }
+        }
+        if (idArchivo === "file_uso_de_suelo") {
+          if (fileDoc.type === "application/pdf") {
+            self.file_uso_de_suelo = fileDoc.name;
+            self.archivosSubir.push(fileDoc);
+          } else {
+            Swal.fire({
+              title: "Error",
+              text:
+                "Estás intentanto subir un formato no permitido, se permite .pdf",
+              position: "top-end",
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            document.getElementById(idArchivo).value = null;
+          }
+        }
+        if (idArchivo === "file_disponibilidad_de_agua") {
+          if (fileDoc.type === "application/pdf") {
+            self.file_disponibilidad_de_agua = fileDoc.name;
+            self.archivosSubir.push(fileDoc);
+          } else {
+            Swal.fire({
+              title: "Error",
+              text:
+                "Estás intentanto subir un formato no permitido, se permite .pdf",
+              position: "top-end",
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            document.getElementById(idArchivo).value = null;
+          }
+        }
+        if (idArchivo === "file_disponibilidad_electrica") {
+          if (fileDoc.type === "application/pdf") {
+            self.file_disponibilidad_electrica = fileDoc.name;
+            self.archivosSubir.push(fileDoc);
+          } else {
+            Swal.fire({
+              title: "Error",
+              text:
+                "Estás intentanto subir un formato no permitido, se permite .pdf",
+              position: "top-end",
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            document.getElementById(idArchivo).value = null;
+          }
+        }
+        if (idArchivo === "file_visado_municipal") {
+          if (fileDoc.type === "application/pdf") {
+            self.file_visado_municipal = fileDoc.name;
+            self.archivosSubir.push(fileDoc);
+          } else {
+            Swal.fire({
+              title: "Error",
+              text:
+                "Estás intentanto subir un formato no permitido, se permite .pdf",
+              position: "top-end",
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            document.getElementById(idArchivo).value = null;
+          }
+        }
+      }
     },
 
     guardarForm() {
-      console.log("guardando...");
-    },
+      let self = this;
+      var user = f.auth().currentUser;
+
+      db.collection("propiedades")
+        .add({
+          uid: user.uid,
+          lat: self.lat,
+          lng: self.lng,
+          area_terreno: self.area_terreno,
+          contaran_clientes: self.contaran_clientes,
+          frente_terreno_acceso: self.frente_terreno_acceso,
+          frente_terreno_acceso_id: self.frente_terreno_acceso_id,
+          mejor_vista: self.mejor_vista,
+          acceso: self.acceso,
+          frente: self.frente,
+          arriba: self.arriba,
+          nivel_terreno: self.nivel_terreno,
+          topografia: self.topografia,
+          file_plano_de_catastro: self.file_plano_de_catastro,
+          file_uso_de_suelo: self.file_uso_de_suelo,
+          file_disponibilidad_de_agua: self.file_disponibilidad_de_agua,
+          file_disponibilidad_electrica: self.file_disponibilidad_electrica,
+          file_visado_municipal: self.file_visado_municipal,
+        })
+        .then(function (docRef) {
+          Swal.fire({
+            title: "Guardando",
+            text:
+              "La propiedad se guardó satisfactoriamente. Se redirigirá al perfil de la propiedad.",
+            position: "top-end",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          // forEach para insertar fotos en storage
+          self.fotos.forEach(function (foto) {
+            const storageRef = f
+              .storage()
+              .ref(`fotos/${docRef.id}/${foto.name}`)
+              .put(foto);
+            storageRef.on(
+              `state_changed`,
+              (snapshot) => {
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              },
+              (error) => {
+                console.log(error.message);
+              }
+              // () => {
+              //   storageRef.snapshot.ref.getDownloadURL().then((url) => {
+              //     console.log(url);
+              //   });
+              // }
+            );
+          });
+          // forEach para insertar documentos en storage
+          self.archivosSubir.forEach(function (archivo) {
+            const storageRef = f
+              .storage()
+              .ref(`documentos/${docRef.id}/${archivo.name}`)
+              .put(archivo);
+            storageRef.on(
+              `state_changed`,
+              (snapshot) => {
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              },
+              (error) => {
+                console.log(error.message);
+              }
+            );
+          });
+
+          setTimeout(function () {
+            self.$router.replace("perfil-propiedad/" + docRef.id);
+          }, 1501);
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+        });
+    }, // guardarForm
   },
   created() {
     //provincias inicial
@@ -786,5 +1119,12 @@ export default {
   filter: drop-shadow(0px 7px 7px #000);
   transform: scale(1);
   filter: none;
+}
+
+.input_images img {
+  max-width: 250px;
+  width: 100%;
+  max-height: 150px;
+  height: 100%;
 }
 </style>
