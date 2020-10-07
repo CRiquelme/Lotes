@@ -225,10 +225,11 @@
                 this.propiedades=[]
                 this.$refs.mapRef.$mapPromise
                 .then(map=>{
-                    this.minLat=map.getBounds().ab.i
-                    const maxLat=map.getBounds().ab.j
-                    const minLng=map.getBounds().Va.i
-                    const maxLng=map.getBounds().Va.j
+
+                    this.minLat=map.getBounds().Ya.i
+                    const maxLat=map.getBounds().Ya.j
+                    const minLng=map.getBounds().Sa.i
+                    const maxLng=map.getBounds().Sa.j
                     
                     this.QueryFirebase(this.CbxApartamento,"Apartamento",this.minLat,maxLat,minLng,maxLng)
                     this.QueryFirebase(this.CbxCasa,"Casa",this.minLat,maxLat,minLng,maxLng)

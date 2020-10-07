@@ -7,6 +7,7 @@ import Perfil from "@/views/Perfil";
 import Publicar from "@/views/Publicar";
 import PerfilUsuario from "@/views/PerfilUsuario";
 import PerfilPropiedad from "@/views/PerfilPropiedad";
+import Mensajes from "@/views/Mensajes";
 // import firebase from "firebase";
 Vue.use(Router);
 
@@ -53,6 +54,11 @@ const router = new Router({
       path: "/publicar",
       name: "Publicar",
       component: Publicar,
+    },
+    {
+      path:"/mensajes",
+      name:"Mensajes",
+      component: Mensajes,
     },
   ],
 });
