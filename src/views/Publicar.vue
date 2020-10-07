@@ -625,8 +625,7 @@ export default {
     },
     ProvinciaChange() {
       //recupera coordenadas
-      const selectedCity = document.getElementById("selectPrv")
-        .selectedOptions[0].outerText;
+      const selectedCity = document.getElementById("selectPrv") .selectedOptions[0].outerText;
       var addressObj = {
         address_line_1: "",
         address_line_2: "",
@@ -919,10 +918,19 @@ export default {
     guardarForm() {
       let self = this;
       var user = f.auth().currentUser;
+      const selectedDistrito = document.getElementById("selectDtt")
+        .selectedOptions[0].outerText;
+      const selectedCanton = document.getElementById("selectCtn")
+        .selectedOptions[0].outerText;
+      const selectedCity = document.getElementById("selectPrv")
+        .selectedOptions[0].outerText;
 
       db.collection("propiedades")
         .add({
           uid: user.uid,
+          provincia: selectedCity,
+          canton:selectedCanton,
+          distrito:selectedDistrito,
           lat: self.lat,
           lng: self.lng,
           area_terreno: self.area_terreno,
@@ -1014,7 +1022,6 @@ export default {
           "https://ubicaciones.paginasweb.cr/provincia/" +
           document.getElementById("selectPrv").value +
           "/cantones.json";
-
         fetch(link)
           .then((ctns) => ctns.json())
           .then((ctn) =>
