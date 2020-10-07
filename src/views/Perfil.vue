@@ -112,7 +112,7 @@
             />
             <div class="px-6 py-4">
               <div class="font-bold text-xl mb-2">
-                <router-link :to="'/PerfilPropiedad/' + propiedad.propid">
+                <router-link :to="'/perfil-propiedad/' + propiedad.propid">
                   {{ propiedad.tipo }} - Provincia
                 </router-link>
               </div>

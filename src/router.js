@@ -48,8 +48,8 @@ const router = new Router({
         autentificado: true,
       },
     },
-    { path: "/Perfil/:id", component: PerfilUsuario },
-    { path: "/PerfilPropiedad/:id", component: PerfilPropiedad },
+    { path: "/perfil/:id", component: PerfilUsuario },
+    { path: "/perfil-propiedad/:id", component: PerfilPropiedad },
     {
       path: "/publicar",
       name: "Publicar",
