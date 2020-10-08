@@ -12,7 +12,20 @@
       <div class="steps-content px-4 py-4">
         <!-- Paso 1 -->
         <div
-          v-show="steps[current].title === 'Paso 1'"
+            v-show="steps[current].title === 'Paso 1'"
+            class="flex flex-col items-center"
+          >
+            <input type="" placeholder="TITULO" class="w-3/4" v-model="titulo">
+            <select name="Tipo" id="CxTipo" v-model="tipo">
+                <option value="Lote">Lote</option>
+                <option value="Apartamento">Apartamento</option>
+                <option value="Casa">Casa</option>
+            </select>
+            <textarea name="Descripcion" id="descripcionpublicacion" cols="30" rows="10" placeholder="Descripción corta" class="w-3/4" v-model="descripcion"></textarea>
+        </div>
+        <!-- Paso 2 -->
+        <div
+          v-show="steps[current].title === 'Paso 2'"
           class="flex flex-col md:flex-row flex-wrap"
         >
           <!-- Listas -->
@@ -143,8 +156,8 @@
           </div>
         </div>
 
-        <!-- Paso 2 -->
-        <div v-show="steps[current].title === 'Paso 2'">
+        <!-- Paso 3 -->
+        <div v-show="steps[current].title === 'Paso 3'">
           <section id="paso2">
             <!-- Pregunta 1 -->
             <div class="md:flex">
@@ -240,8 +253,8 @@
           </section>
         </div>
 
-        <!-- Paso 3 -->
-        <div v-show="steps[current].title === 'Paso 3'">
+        <!-- Paso 4 -->
+        <div v-show="steps[current].title === 'Paso 4'">
           <section id="paso3">
             <!-- Pregunta 1 -->
             <div class="clearfix">
@@ -470,7 +483,13 @@ export default {
         {
           title: "Paso 3",
         },
+        {
+          title: "Paso 4",
+        },
       ],
+      titulo:"",
+      tipo:"",
+      descripcion:"",
       area_terreno: "",
       medida_frente_terreno: "",
       tipo_medida: "",
@@ -927,8 +946,10 @@ export default {
 
       db.collection("propiedades")
         .add({
+          titulo:this.titulo,
+          tipo:this.tipo,
+          descripcion:this.descripcion,
           uid: user.uid,
-          tipo:"Lote",
           provincia: selectedCity,
           canton:selectedCanton,
           distrito:selectedDistrito,

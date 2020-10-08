@@ -230,7 +230,6 @@
                     const minLng=map.getBounds().Sa.i
                     const maxLng=map.getBounds().Sa.j
                     
-                    
                     this.QueryFirebase(this.CbxApartamento,"Apartamento",minLat,maxLat,minLng,maxLng)
                     this.QueryFirebase(this.CbxCasa,"Casa",minLat,maxLat,minLng,maxLng)
                     this.QueryFirebase(this.CbxLote,"Lote",minLat,maxLat,minLng,maxLng)
@@ -240,7 +239,6 @@
                 if(chkbx){
                     db.collection('propiedades')
                     .where("tipo","==",t)
-                    .limit(100)
                     .get()
                     .then((props)=>{props.forEach(prop=>{
                         const propLat=prop.data().lat
