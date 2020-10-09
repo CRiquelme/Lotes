@@ -84,7 +84,6 @@
                     :key="index"
                     v-for="(p, index) in propiedades"
                     :position={lat:p.lat,lng:p.lng}
-                    :data-id=p.id
                     @click="SelecetPropiedad()"
                     />
         </GmapMap>
@@ -97,14 +96,12 @@
                 <div class="px-6 py-4">
                     <div class="font-bold text-xl mb-2">{{ prop.titulo }}</div>
                     <p class="text-gray-700 text-base">
-                        {{ p.descripcion }}
+                        {{ prop.descripcion }}
                     </p>
                     <span> Código propiedad {{ prop.id }}</span>
                 </div>
                 <div class="px-6 pt-4 pb-2">
-                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
+                    <span v-for="(comodidad,n) in prop.contaran_clientes" :key=n class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ comodidad }}</span>
                 </div>
             </div>
         </div>
@@ -230,6 +227,7 @@
                     const minLng=map.getBounds().Sa.i
                     const maxLng=map.getBounds().Sa.j
                     
+   
                     this.QueryFirebase(this.CbxApartamento,"Apartamento",minLat,maxLat,minLng,maxLng)
                     this.QueryFirebase(this.CbxCasa,"Casa",minLat,maxLat,minLng,maxLng)
                     this.QueryFirebase(this.CbxLote,"Lote",minLat,maxLat,minLng,maxLng)
@@ -248,6 +246,7 @@
                             propLng > minLng &&
                             propLng < maxLng){
                                 this.propiedades.push(prop.data())
+                                console.log(prop.data())
                         }                        
                     })})
                 }
