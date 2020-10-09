@@ -16,19 +16,29 @@
             class="flex flex-col items-center"
           >
             <input type="" placeholder="TITULO" class="w-3/4" v-model="titulo">
-            <select name="Tipo" id="CxTipo" v-model="tipo">
-                <option value="Lote">Lote</option>
-                <option value="Apartamento">Apartamento</option>
-                <option value="Casa">Casa</option>
-            </select>
+            <div class="flex">
+              <span>Tipo:</span>
+              <select name="Tipo" id="CxTipo" v-model="tipo">
+                  <option value="Lote">Lote</option>
+                  <option value="Apartamento">Apartamento</option>
+                  <option value="Casa">Casa</option>
+              </select>
+            </div>
+
             <textarea name="Descripcion" id="descripcionpublicacion" cols="30" rows="10" placeholder="Descripción corta" class="w-3/4" v-model="descripcion"></textarea>
+            <div class="flex ">
+              <span>Precio: </span>
+              <input type="number" placeholder="$100.000" @change="formatoPrecio" v-model="precio">
+            </div>
+
+            <span class="text-6xl"> {{ precioFormateado }} </span>
         </div>
         <!-- Paso 2 -->
         <div
           v-show="steps[current].title === 'Paso 2'"
           class="flex flex-col md:flex-row flex-wrap"
         >
-          <!-- Listas -->
+          <!-- Provincias -->
           <div class="w-full mb-5 md:w-1/2 flex flex-col md:pr-10">
             <div class="md:flex md:items-center">
               <div class="md:w-1/5">
@@ -51,8 +61,8 @@
                 </select>
               </div>
             </div>
-            <!-- Provincia -->
 
+            <!-- Canton -->
             <div class="md:flex md:items-center mt-5">
               <div class="md:w-1/5">
                 <label class="text-lg" for="selectCtn">Cantón: </label>
@@ -71,8 +81,8 @@
                 </select>
               </div>
             </div>
-            <!-- Cantón -->
 
+            <!-- Distrito -->
             <div class="md:flex md:items-center mt-5">
               <div class="md:w-1/5">
                 <label class="text-lg" for="selectDtt">Distrito: </label>
@@ -91,8 +101,18 @@
                 </select>
               </div>
             </div>
-            <!-- Distrito -->
 
+            <!-- Dirección -->
+            <div class="md:flex md:items-center mt-5">
+              <div class="md:w-1/5">
+                <label class="text-lg" for="selectDtt">Dirección: </label>
+              </div>
+              <div class="md:w-4/5">
+                <input type="text" v-model="direccionPropiedad">
+              </div>
+            </div>
+
+            <!-- Latitud -->
             <div class="md:flex md:items-center mt-5">
               <div class="md:w-1/5">
                 <label class="text-lg" for="lat">Latitud: </label>
@@ -107,8 +127,8 @@
                 />
               </div>
             </div>
-            <!-- Latitud -->
-
+            
+            <!-- Longitud-->
             <div class="md:flex md:items-center mt-5">
               <div class="md:w-1/5">
                 <label class="text-lg" for="lng">Longitud: </label>
@@ -123,9 +143,7 @@
                 />
               </div>
             </div>
-            <!-- Longitud -->
 
-            <!-- tipoPropiedad -->
           </div>
 
           <!-- Mapa -->
@@ -153,6 +171,7 @@
                 ref="GoogleMrkr"
               />
             </GmapMap>
+            <span>Coloca el pin del mapa en la ubicación exacta de la propiedad.</span>
           </div>
         </div>
 
@@ -488,9 +507,9 @@ export default {
         },
       ],
       titulo:"",
-      tipo:"",
+      tipo:"Lote",
       descripcion:"",
-      area_terreno: "",
+      area_terreno: null,
       medida_frente_terreno: "",
       tipo_medida: "",
       contaran_clientes: [],
@@ -616,6 +635,10 @@ export default {
       file_visado_municipal: "",
       selectedCenter: { lat: 10, lng: -84 },
       selectedZoom: 7,
+
+      precio:null,
+      precioFormateado:"",
+      direccionPropiedad:"",
 
       lat: 10,
       lng: -84,
@@ -949,10 +972,12 @@ export default {
           titulo:this.titulo,
           tipo:this.tipo,
           descripcion:this.descripcion,
+          precio:this.precio,
           uid: user.uid,
           provincia: selectedCity,
           canton:selectedCanton,
           distrito:selectedDistrito,
+          direccionPropiedad:this.direccionPropiedad,
           lat: self.lat,
           lng: self.lng,
           area_terreno: self.area_terreno,
@@ -1028,6 +1053,11 @@ export default {
           console.error("Error adding document: ", error);
         });
     }, // guardarForm
+    
+    formatoPrecio(){
+      this.precioFormateado= new Intl.NumberFormat().format(this.precio)
+      this.precioFormateado="$" + this.precioFormateado
+    }
   },
   created() {
     //provincias inicial
