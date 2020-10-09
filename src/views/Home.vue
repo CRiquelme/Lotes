@@ -95,9 +95,9 @@
                 :key="prop.id">
                 <img class="w-full" src="https://i.picsum.photos/id/894/600/600.jpg?hmac=wJg2bcsTpfgAb0eYMLFbhzwiEUMTMBwtBf-yvdY491k" alt="Sunset in the mountains">
                 <div class="px-6 py-4">
-                    <div class="font-bold text-xl mb-2">{{ prop.tipo }}</div>
+                    <div class="font-bold text-xl mb-2">{{ prop.titulo }}</div>
                     <p class="text-gray-700 text-base">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
+                        {{ p.descripcion }}
                     </p>
                     <span> Código propiedad {{ prop.id }}</span>
                 </div>
