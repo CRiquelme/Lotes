@@ -95,7 +95,10 @@
     </div>
     <div class="bg-gray-200 md:mt-10">
       <!-- Lista de propiedades -->
-      <div class="px-8 md:pt-6 pb-8 container mx-auto md:pt-5">
+      <div
+        class="px-8 md:pt-6 pb-8 container mx-auto md:pt-5"
+        v-if="propiedades.length > 0"
+      >
         <h2 class="text-blue-800 font-bold uppercase md:mt-10">
           Tus propiedades a la venta
         </h2>
@@ -105,27 +108,57 @@
             :key="propiedad.id"
             class="max-w-sm rounded overflow-hidden shadow-lg bg-white"
           >
-            <img
-              class="w-full"
-              src="https://source.unsplash.com/random"
-              alt="Sunset in the mountains"
-            />
-            <div class="px-6 py-4">
+            <div uk-slideshow="autoplay: true">
+              <ul class="uk-slideshow-items">
+                <li v-for="foto in propiedad.fotos" :key="foto">
+                  <img
+                    class="w-full h-48 object-cover object-center"
+                    :src="foto"
+                    :alt="foto"
+                  />
+                </li>
+              </ul>
+            </div>
+            <div class="px-6 pt-4">
               <div class="font-bold text-xl mb-2">
                 <router-link :to="'/perfil-propiedad/' + propiedad.propid">
-                  {{ propiedad.tipo }} - Provincia
+                  {{ propiedad.tipo }} - {{ propiedad.provincia }}
                 </router-link>
               </div>
-              <p class="text-gray-700 text-base">Acá irá la descripción....</p>
+              <ul class="list-none pl-0">
+                <li><b>Cantón</b>: {{ propiedad.canton }}</li>
+                <li><b>Distrito</b>: {{ propiedad.distrito }}</li>
+              </ul>
+              <!-- <ul class="list-none pl-0">
+                <li
+                  class="text-gray-700"
+                  v-for="contaran_clientes in propiedad.contaran_clientes"
+                  :key="contaran_clientes"
+                >
+                  {{ contaran_clientes }}
+                </li>
+              </ul> -->
             </div>
-            <div class="px-6 pt-4 pb-2">
-              <span
+            <div class="px-6 pb-2 flex justify-between">
+              <!-- <span
                 class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
                 >{{ propiedad.tipo }}</span
-              >
+              > -->
+              <router-link :to="'/publicar/' + propiedad.propid">
+                Editar propiedad
+              </router-link>
+
+              <button class="text-red-500">Desactivar propiedad</button>
             </div>
           </div>
         </div>
+      </div>
+
+      <div v-else class="px-8 md:pt-6 pb-8 container mx-auto md:pt-5">
+        Aún no tienes ninguna propiedad a la venta...
+        <router-link to="/publicar" class="inline-block hover:no-underline">
+          Puedes comenzar haciendo</router-link
+        >
       </div>
     </div>
   </section>
@@ -168,10 +201,23 @@ export default {
       .get()
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
-          let data = { ...doc.data(), propid: doc.id };
+          let data = { ...doc.data() };
+          // self.propiedades.push(data);
+          let fotos = [];
+          // console.log(self.propiedades);
+          // console.log(data.frente);
+          let tituloFotos = [data.frente, data.arriba];
+          tituloFotos.forEach((titulo) => {
+            f.storage()
+              .ref("fotos/" + doc.id + "/" + titulo)
+              .getDownloadURL()
+              .then((imgUrl) => {
+                fotos.push(imgUrl);
+              });
+          });
+
+          data = { ...doc.data(), propid: doc.id, fotos };
           self.propiedades.push(data);
-          console.log(self.propiedades);
-          console.log(doc.id);
         });
       })
       .catch(function (error) {

@@ -50,14 +50,15 @@ const router = new Router({
     },
     { path: "/perfil/:id", component: PerfilUsuario },
     { path: "/perfil-propiedad/:id", component: PerfilPropiedad },
+    { path: "/publicar/:id", component: Publicar },
     {
       path: "/publicar",
       name: "Publicar",
       component: Publicar,
     },
     {
-      path:"/mensajes",
-      name:"Mensajes",
+      path: "/mensajes",
+      name: "Mensajes",
       component: Mensajes,
     },
   ],
