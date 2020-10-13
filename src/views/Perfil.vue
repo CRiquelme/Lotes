@@ -191,7 +191,6 @@ export default {
           self.datosUser = doc.data();
         }
       });
-      // Si no hay datos entonces redirigir al login para no ingresar a esta sección
     } else {
       this.$router.replace("login");
     }
@@ -208,15 +207,15 @@ export default {
           // console.log(data.frente);
           let tituloFotos = [data.frente, data.arriba];
           tituloFotos.forEach((titulo) => {
-            f.storage()
-              .ref("fotos/" + doc.id + "/" + titulo)
-              .getDownloadURL()
-              .then((imgUrl) => {
-                fotos.push(imgUrl);
-              });
-          });
-
-          data = { ...doc.data(), propid: doc.id, fotos };
+            if(titulo) {
+              f.storage()
+                .ref("fotos/" + doc.id + "/" + titulo)
+                .getDownloadURL()
+                .then((imgUrl) => {
+                  fotos.push(imgUrl);
+                });
+            }
+          });data = { ...doc.data(), propid: doc.id, fotos };
           self.propiedades.push(data);
         });
       })

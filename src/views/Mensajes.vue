@@ -1,5 +1,6 @@
 <template>
     <div class="container flex mx-auto mt-4  h-full">
+
         <!-- mensajes -->
         <div class="w-2/3 h-full bg-red-500 p-4 flex flex-col" >
             <div class="flex flex-col h-2/3 bg-gray-500">
@@ -36,6 +37,22 @@
             return{
                 
             }
+        },
+        methods:{
+/*             enviarCorreo(){
+                    Email.send({
+                    Host : "smtp.yourisp.com",
+                    Username : "username",
+                    Password : "password",
+                    To : 'them@website.com',
+                    From : "you@isp.com",
+                    Subject : "This is the subject",
+                    Body : "And this is the body"
+                    }).then(
+                    message => alert(message)
+                    );
+            } */
+
         }
     }
 </script>
