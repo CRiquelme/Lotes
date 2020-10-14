@@ -206,14 +206,16 @@ export default {
           let fotos = [];
           // console.log(self.propiedades);
           // console.log(data.frente);
-          let tituloFotos = [data.frente, data.arriba];
+          let tituloFotos = [data.frente, data.arriba, data.mejor_vista, data.acceso];
           tituloFotos.forEach((titulo) => {
-            f.storage()
-              .ref("fotos/" + doc.id + "/" + titulo)
-              .getDownloadURL()
-              .then((imgUrl) => {
-                fotos.push(imgUrl);
-              });
+            if(titulo) {
+              f.storage()
+                .ref("fotos/" + doc.id + "/" + titulo)
+                .getDownloadURL()
+                .then((imgUrl) => {
+                  fotos.push(imgUrl);
+                });
+            }
           });
 
           data = { ...doc.data(), propid: doc.id, fotos };
