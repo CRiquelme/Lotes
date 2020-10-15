@@ -45,7 +45,7 @@ const router = new Router({
       },
     },
     { path: "/perfil/:id", component: PerfilUsuario },
-    { path: "/perfil-propiedad/:id", component: PerfilPropiedad },
+    { path: "/perfil-propiedad/:id", component: PerfilPropiedad, name: 'perfilpropiedad' },
     { path: "/publicar/:id", component: Publicar },
     {
       path: "/publicar",

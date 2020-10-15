@@ -1,7 +1,11 @@
 <template>
   <section>
     <div class="container mx-auto md:py-10 mb-10 px-5">
-      <h1 class="font-black uppercase text-2xl my-10">Publicar en CR-Lotes</h1>
+      
+      <div class="my-10">
+        <h1 class="font-black uppercase text-2xl">Publicar en CR-Lotes</h1>
+        <p v-if="idPropiedad">Tus clientes verán tu propiedad así: <router-link :to="{ name:'perfilpropiedad', params: {id: idPropiedad} }">Ver publicación</router-link></p>
+      </div>
 
       <!-- Pasos -->
       <a-steps :current="current">
@@ -11,40 +15,71 @@
       <!-- Contenido de pasos -->
       <div class="steps-content px-4 py-4">
         <!-- Paso 1 -->
-        <div
-            v-show="steps[current].title === 'Paso 1'"
-            class="flex flex-col items-center"
-          >
-            <input type="" placeholder="TITULO" class="w-3/4" v-model="titulo">
-            <div class="flex">
-              <span>Tipo:</span>
-              <select name="Tipo" id="CxTipo" v-model="tipo">
+        <div v-show="steps[current].title === 'Paso 1'" >
+          <div class="mb-5">
+            <!-- Título -->
+            <div class="md:flex md:items-center mt-5">
+              <div class="md:w-1/5">
+                <label class="text-lg" for="titulo_propiedad">Título: </label>
+              </div>
+              <div class="md:w-4/5">
+                <input
+                  type = "text"
+                  id = "titulo_propiedad"
+                  class = "uk-input"
+                  v-model = "titulo"
+                />
+              </div>
+            </div> <!-- titulo -->
+            <!-- Tipo -->
+            <div class="md:flex md:items-center mt-5">
+              <div class="md:w-1/5">
+                <label class="text-lg" for="CxTipo">Tipo: </label>
+              </div>
+              <div class="md:w-4/5">
+                <select name="Tipo" id="CxTipo" class="uk-select" v-model="tipo">
                   <option value="Lote">Lote</option>
                   <option value="Apartamento">Apartamento</option>
                   <option value="Casa">Casa</option>
-              </select>
-            </div>
+                </select>
+              </div>
+            </div> <!-- tipo -->
+            <!-- Descripción -->
+            <div class="md:flex md:items-center mt-5">
+              <div class="md:w-1/5">
+                <label class="text-lg" for="descripcionpublicacion">Descripción:</label>
+              </div>
+              <div class="md:w-4/5">
+                <textarea name="descripcion" id="descripcionpublicacion" cols="30" rows="10" placeholder="Descripción corta" class="uk-textarea" v-model="descripcion"></textarea>
+              </div>
+            </div> <!-- Descripción -->
+            <!-- Precio -->
+            <div class="md:flex md:items-center mt-5">
+              <div class="md:w-1/5">
+                <label class="text-lg" for="precio">Precio:</label>
+              </div>
+              <div class="md:w-3/5">
+                  <input type="number" id="precio" placeholder="100000" class="uk-input" @input="formatoPrecio" v-model="precio">
+              </div>
+              <div class="md:w-1/5 px-3">
+                {{ precioFormateado }}
+              </div>
+            </div> <!-- Precio -->
+          </div>
+        </div> <!-- Paso 1 -->
 
-            <textarea name="Descripcion" id="descripcionpublicacion" cols="30" rows="10" placeholder="Descripción corta" class="w-3/4" v-model="descripcion"></textarea>
-            <div class="flex ">
-              <span>Precio: </span>
-              <input type="number" placeholder="$100.000" @change="formatoPrecio" v-model="precio">
-            </div>
-
-            <span class="text-6xl"> {{ precioFormateado }} </span>
-        </div>
         <!-- Paso 2 -->
         <div
           v-show="steps[current].title === 'Paso 2'"
           class="flex flex-col md:flex-row flex-wrap"
         >
-          <!-- Provincias -->
           <div class="w-full mb-5 md:w-1/2 flex flex-col md:pr-10">
-            <div class="md:flex md:items-center">
-              <div class="md:w-1/5">
+            <!-- Provincias -->
+            <div class="lg:flex lg:items-center">
+              <div class="lg:w-1/5">
                 <label class="text-lg" for="selectPrv">Provincia: </label>
               </div>
-              <div class="md:w-4/5">
+              <div class="lg:w-4/5">
                 <select
                   name="Provincia"
                   id="selectPrv"
@@ -63,11 +98,11 @@
             </div>
 
             <!-- Canton -->
-            <div class="md:flex md:items-center mt-5">
-              <div class="md:w-1/5">
+            <div class="lg:flex lg:items-center mt-5">
+              <div class="lg:w-1/5">
                 <label class="text-lg" for="selectCtn">Cantón: </label>
               </div>
-              <div class="md:w-4/5">
+              <div class="lg:w-4/5">
                 <select
                   v-if="cantones"
                   @change="CantonChange"
@@ -83,11 +118,11 @@
             </div>
 
             <!-- Distrito -->
-            <div class="md:flex md:items-center mt-5">
-              <div class="md:w-1/5">
+            <div class="lg:flex lg:items-center mt-5">
+              <div class="lg:w-1/5">
                 <label class="text-lg" for="selectDtt">Distrito: </label>
               </div>
-              <div class="md:w-4/5">
+              <div class="lg:w-4/5">
                 <select
                   v-if="distritos"
                   @change="DistritoChange"
@@ -103,21 +138,21 @@
             </div>
 
             <!-- Dirección -->
-            <div class="md:flex md:items-center mt-5">
-              <div class="md:w-1/5">
+            <div class="lg:flex lg:items-center mt-5">
+              <div class="lg:w-1/5">
                 <label class="text-lg" for="selectDtt">Dirección: </label>
               </div>
-              <div class="md:w-4/5">
-                <input type="text" v-model="direccionPropiedad">
+              <div class="lg:w-4/5">
+                <input type="text" class="uk-input" v-model="direccionPropiedad">
               </div>
             </div>
 
             <!-- Latitud -->
-            <div class="md:flex md:items-center mt-5">
-              <div class="md:w-1/5">
+            <div class="lg:flex lg:items-center mt-5">
+              <div class="lg:w-1/5">
                 <label class="text-lg" for="lat">Latitud: </label>
               </div>
-              <div class="md:w-4/5">
+              <div class="lg:w-4/5">
                 <input
                   type="text"
                   id="lat"
@@ -129,11 +164,11 @@
             </div>
             
             <!-- Longitud-->
-            <div class="md:flex md:items-center mt-5">
-              <div class="md:w-1/5">
+            <div class="lg:flex lg:items-center mt-5">
+              <div class="lg:w-1/5">
                 <label class="text-lg" for="lng">Longitud: </label>
               </div>
-              <div class="md:w-4/5">
+              <div class="lg:w-4/5">
                 <input
                   type="text"
                   id="lng"
@@ -150,7 +185,7 @@
           <div class="w-full md:w-1/2">
             <button
               type="button"
-              class="uk-button uk-button-secondary uk-width-1-1 leading-4"
+              class="bg-gray-800 text-white w-full py-5"
               @click="locatorButtonPressed"
             >
               <i class="fas fa-map-marked"></i> Buscar ubicación cerca de tu
@@ -171,7 +206,7 @@
                 ref="GoogleMrkr"
               />
             </GmapMap>
-            <span>Coloca el pin del mapa en la ubicación exacta de la propiedad.</span>
+            <div class="bg-gray-800 text-white w-full py-2 text-center">Mueve el pin del mapa en la ubicación exacta de la propiedad.</div>
           </div>
         </div>
 
@@ -179,15 +214,15 @@
         <div v-show="steps[current].title === 'Paso 3'">
           <section id="paso2">
             <!-- Pregunta 1 -->
-            <div class="md:flex">
+            <div class="lg:flex">
               <!-- ¿Cuál es el área del terreno? -->
-              <div class="flex md:items-center w-full md:w-2/3">
-                <div class="md:w-2/5">
+              <div class="lg:flex lg:items-center w-full w-full lg:w-2/3">
+                <div class="lg:w-2/5 w-full">
                   <label class="text-lg" for="area_terreno"
                     >¿Cuál es el área del terreno?</label
                   >
                 </div>
-                <div class="md:w-3/5">
+                <div class="lg:w-3/5 w-full">
                   <input
                     type="number"
                     step="0.1"
@@ -201,9 +236,9 @@
                 </div>
               </div>
               <!-- Tipo de medida -->
-              <div class="uk-form-controls md:ml-5 w-full md:w-2/3">
+              <div class="uk-form-controls lg:ml-5 w-full md:w-2/3 md:flex">
                 <label
-                  class="block"
+                  class="block md:mr-5 md:mt-5"
                   v-for="(tipoMedida, itipoMedida) in tipoMedida"
                   :key="itipoMedida"
                   ><input
@@ -241,8 +276,8 @@
 
             <!-- Pregunta 3 -->
             <div class="mt-5 grid">
-              <label class="uk-form-label uk-text-large" for=""
-                >Marca en la imagen, como es el frente del terreno, en relación
+              <label class="text-lg">
+                Marca en la imagen, como es el frente del terreno, en relación
                 al acceso:
                 <span v-if="frente_terreno_acceso != 'null'" class="font-bold">
                   {{ frente_terreno_acceso }}</span
@@ -281,8 +316,8 @@
                 Te recomendamos subir fotografías de: La mejor vista, el acceso,
                 de frente y desde arriba
               </label>
-              <div class="uk-child-width-1-4@m mt-5">
-                <div class="uk-form-custom px-10 input_images">
+              <div class="uk-child-width-1-1 uk-child-width-1-2@s uk-child-width-1-4@m mt-5">
+                <div class="uk-form-custom px-10 mb-5 input_images">
                   <label for="">La mejor vista</label>
                   <input
                     type="file"
@@ -301,11 +336,11 @@
                   <img
                     id="blah1"
                     src="https://via.placeholder.com/250x150/000000/ffffff ?text=Mejor vista"
-                    alt="your image"
-                    class="preview_foto"
+                    alt="Mejor vista"
+                    class="uk-width-1-1"
                   />
                 </div>
-                <div class="uk-form-custom px-10 input_images">
+                <div class="uk-form-custom px-10 mb-5 input_images">
                   <label for="">El acceso</label>
                   <input
                     type="file"
@@ -328,7 +363,7 @@
                     class="preview_foto"
                   />
                 </div>
-                <div class="uk-form-custom px-10 input_images">
+                <div class="uk-form-custom px-10 mb-5 input_images">
                   <label for="">De frente</label>
                   <input
                     type="file"
@@ -351,7 +386,7 @@
                     class="preview_foto"
                   />
                 </div>
-                <div class="uk-form-custom px-10 input_images">
+                <div class="uk-form-custom px-10 mb-5 input_images">
                   <label for="">Desde arriba</label>
                   <input
                     type="file"
@@ -380,7 +415,7 @@
             <!-- Pregunta 2 -->
             <div class="my-4 mt-20">
               <label class="text-lg">La mayoría del terreno está:</label>
-              <div class="flex flex-col md:flex-row hiddenradiosimple mt-5">
+              <div class="flex flex-col sm:flex-row hiddenradiosimple mt-5">
                 <label
                   v-for="nivel in nivelCalle"
                   :key="nivel.titulo"
@@ -407,7 +442,7 @@
                 posición de la rodilla</label
               >
               <div
-                class="uk-grid-large uk-child-width-1-6@s uk-child-width-1-6@m uk-flex-center uk-text-left hiddenradio"
+                class="uk-grid-large uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-6@m uk-flex-center uk-text-left hiddenradio"
                 uk-grid
               >
                 <label v-for="it in imagenesTopografia" :key="it.valor">
@@ -462,7 +497,7 @@
             </div>
           </section>
         </div>
-      </div>
+      </div> <!-- Contenido de pasos -->
 
       <!-- Acción de pasos -->
       <div class="steps-action flex justify-between">
@@ -489,7 +524,7 @@
           Publicar
         </a-button>
       </div>
-    </div>
+    </div> <!-- container -->
   </section>
 </template>
 
@@ -502,6 +537,7 @@ export default {
   data() {
     return {
       current: 0,
+      idPropiedad: '',
       steps: [{title: "Paso 1",},{title: "Paso 2",},{title: "Paso 3",},{title: "Paso 4",},],
       titulo:"",
       tipo:"Lote",
@@ -959,8 +995,7 @@ export default {
       const selectedCity = document.getElementById("selectPrv")
         .selectedOptions[0].outerText;
 
-      if(getId) 
-      {
+      if(getId) {
         db.collection("propiedades")
         .doc(getId)
         .update({
@@ -1137,12 +1172,13 @@ export default {
     
     formatoPrecio(){
       this.precioFormateado= new Intl.NumberFormat().format(this.precio)
-      this.precioFormateado="$" + this.precioFormateado
+      this.precioFormateado="₡" + this.precioFormateado
     }
   },
   created() {
     const getId = this.$route.params.id;
     let self = this
+    self.idPropiedad = getId
     // Si hay getId es una edición
     if(getId) {
       let dPropiedad = db.collection("propiedades").doc(getId);
@@ -1153,6 +1189,7 @@ export default {
         self.tipo = docProp.data().tipo;
         self.descripcion = docProp.data().descripcion;
         self.precio = docProp.data().precio;
+        self.formatoPrecio();
         let provincia = document.getElementById("selectPrv");
         provincia.options[provincia.selectedIndex].text = docProp.data().provincia;
         let canton = document.getElementById("selectCtn");
@@ -1344,9 +1381,10 @@ export default {
 }
 
 .input_images img {
-  max-width: 250px;
+  /* max-width: 250px; */
   width: 100%;
   max-height: 150px;
   height: 100%;
+  object-fit: scale-down;
 }
 </style>
