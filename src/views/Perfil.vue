@@ -191,7 +191,6 @@ export default {
           self.datosUser = doc.data();
         }
       });
-      // Si no hay datos entonces redirigir al login para no ingresar a esta sección
     } else {
       this.$router.replace("login");
     }

@@ -12,7 +12,9 @@ import Geocoder from "@pderas/vue2-geocoder";
 import vuex from "vuex";
 import Antd from "ant-design-vue";
 import "ant-design-vue/dist/antd.css";
-Vue.config.productionTip = false;
+import LoadScript from 'vue-plugin-load-script'
+
+Vue.use(LoadScript)
 
 Vue.config.productionTip = false;
 
