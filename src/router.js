@@ -14,11 +14,7 @@ Vue.use(Router);
 const router = new Router({
   mode: "history",
   routes: [
-    {
-      path: "/home",
-      name: "Home",
-      component: Home,
-    },
+
     {
       path: "/login",
       name: "Login",
