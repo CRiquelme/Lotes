@@ -205,7 +205,7 @@ export default {
           let fotos = [];
           // console.log(self.propiedades);
           // console.log(data.frente);
-          let tituloFotos = [data.frente, data.arriba];
+          let tituloFotos = [data.frente, data.arriba, data.mejor_vista, data.acceso];
           tituloFotos.forEach((titulo) => {
             if(titulo) {
               f.storage()
@@ -215,7 +215,9 @@ export default {
                   fotos.push(imgUrl);
                 });
             }
-          });data = { ...doc.data(), propid: doc.id, fotos };
+          });
+
+          data = { ...doc.data(), propid: doc.id, fotos };
           self.propiedades.push(data);
         });
       })

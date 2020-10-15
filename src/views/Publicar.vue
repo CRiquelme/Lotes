@@ -434,10 +434,10 @@
               <div
                 v-for="archivo in archivos"
                 :key="archivo.id"
-                class="md:flex md:items-center"
+                class="md:flex md:items-center mb-5"
               >
                 <div class="md:w-1/5">
-                  <label :for="archivo.id">{{ archivo.titulo }}</label>
+                  <label class="label" :for="archivo.id">{{ archivo.titulo }}</label>
                 </div>
                 <div class="md:w-4/5">
                   <input
@@ -447,6 +447,16 @@
                     @change="archivosASubir(archivo.id)"
                     accept="application/pdf"
                   />
+                  
+                  <a class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-4 ml-5 rounded" target="_blank" :href="ver_plano_de_catastro" v-if="archivo.id === 'file_plano_de_catastro' && ver_plano_de_catastro">Ver archivo existente</a>
+                  
+                  <a class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-4 ml-5 rounded" target="_blank" :href="ver_uso_de_suelo" v-if="archivo.id === 'file_uso_de_suelo' && ver_uso_de_suelo">Ver archivo existente</a>
+                  
+                  <a class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-4 ml-5 rounded" target="_blank" :href="ver_disponibilidad_de_agua" v-if="archivo.id === 'file_disponibilidad_de_agua' && ver_disponibilidad_de_agua">Ver archivo existente</a>
+                  
+                  <a class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-4 ml-5 rounded" target="_blank" :href="ver_disponibilidad_electrica" v-if="archivo.id === 'file_disponibilidad_electrica' && ver_disponibilidad_electrica">Ver archivo existente</a>
+                  
+                  <a class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-4 ml-5 rounded" target="_blank" :href="ver_visado_municipal" v-if="archivo.id === 'file_visado_municipal' && ver_visado_municipal">Ver archivo existente</a>
                 </div>
               </div>
             </div>
@@ -492,20 +502,7 @@ export default {
   data() {
     return {
       current: 0,
-      steps: [
-        {
-          title: "Paso 1",
-        },
-        {
-          title: "Paso 2",
-        },
-        {
-          title: "Paso 3",
-        },
-        {
-          title: "Paso 4",
-        },
-      ],
+      steps: [{title: "Paso 1",},{title: "Paso 2",},{title: "Paso 3",},{title: "Paso 4",},],
       titulo:"",
       tipo:"Lote",
       descripcion:"",
@@ -586,15 +583,19 @@ export default {
         { titulo: "Plano de catastro", id: "file_plano_de_catastro" },
         { titulo: "Uso de suelo", id: "file_uso_de_suelo" },
         { titulo: "Disponibilidad de agua", id: "file_disponibilidad_de_agua" },
-        {
-          titulo: "Disponibilidad eléctrica",
-          id: "file_disponibilidad_electrica",
-        },
-        {
-          titulo: "Visado municipal",
-          id: "file_visado_municipal",
-        },
+        { titulo: "Disponibilidad eléctrica", id: "file_disponibilidad_electrica" },
+        { titulo: "Visado municipal", id: "file_visado_municipal" },
       ],
+      file_plano_de_catastro: '',
+      file_uso_de_suelo: '',
+      file_disponibilidad_de_agua: '',
+      file_disponibilidad_electrica: '',
+      file_visado_municipal: '',
+      ver_plano_de_catastro: '',
+      ver_uso_de_suelo: '',
+      ver_disponibilidad_de_agua: '',
+      ver_disponibilidad_electrica: '',
+      ver_visado_municipal: '',
       nivelCalle: [
         {
           titulo: "Bajo nivel de calle",
@@ -615,31 +616,20 @@ export default {
         { titulo: "Apartamento" },
         { titulo: "Casa" },
       ],
-      mejor_vista: "",
-      mejor_vista_url: "",
-      acceso: "",
-      acceso_url: "",
-      frente: "",
-      frente_url: "",
-      arriba: "",
-      arriba_url: "",
       fotos: [],
+      mejor_vista: '',
+      acceso: '',
+      frente: '',
+      arriba: '',
       archivosSubir: [],
       provincias: [],
       cantones: [],
       distritos: [],
-      file_plano_de_catastro: "",
-      file_uso_de_suelo: "",
-      file_disponibilidad_de_agua: "",
-      file_disponibilidad_electrica: "",
-      file_visado_municipal: "",
       selectedCenter: { lat: 10, lng: -84 },
       selectedZoom: 7,
-
       precio:null,
       precioFormateado:"",
       direccionPropiedad:"",
-
       lat: 10,
       lng: -84,
     };
@@ -958,7 +948,9 @@ export default {
     },
 
     guardarForm() {
-      let self = this;
+      const getId = this.$route.params.id;
+      let self = this
+
       var user = f.auth().currentUser;
       const selectedDistrito = document.getElementById("selectDtt")
         .selectedOptions[0].outerText;
@@ -967,20 +959,24 @@ export default {
       const selectedCity = document.getElementById("selectPrv")
         .selectedOptions[0].outerText;
 
-      db.collection("propiedades")
-        .add({
-          titulo:this.titulo,
-          tipo:this.tipo,
-          descripcion:this.descripcion,
-          precio:this.precio,
+      if(getId) 
+      {
+        db.collection("propiedades")
+        .doc(getId)
+        .update({
+          titulo: self.titulo,
+          tipo: self.tipo,
+          descripcion: self.descripcion,
+          precio: self.precio,
           uid: user.uid,
           provincia: selectedCity,
           canton:selectedCanton,
           distrito:selectedDistrito,
-          direccionPropiedad:this.direccionPropiedad,
+          direccionPropiedad:self.direccionPropiedad,
           lat: self.lat,
           lng: self.lng,
           area_terreno: self.area_terreno,
+          tipo_medida: self.tipo_medida,
           contaran_clientes: self.contaran_clientes,
           frente_terreno_acceso: self.frente_terreno_acceso,
           frente_terreno_acceso_id: self.frente_terreno_acceso_id,
@@ -996,11 +992,11 @@ export default {
           file_disponibilidad_electrica: self.file_disponibilidad_electrica,
           file_visado_municipal: self.file_visado_municipal,
         })
-        .then(function (docRef) {
+        .then(function (getId) {
           Swal.fire({
             title: "Guardando",
             text:
-              "La propiedad se guardó satisfactoriamente. Se redirigirá al perfil de la propiedad.",
+              "La propiedad se actualizó satisfactoriamente. Se redirigirá al perfil de la propiedad. ",
             position: "top-end",
             icon: "success",
             showConfirmButton: false,
@@ -1011,7 +1007,7 @@ export default {
           self.fotos.forEach(function (foto) {
             const storageRef = f
               .storage()
-              .ref(`fotos/${docRef.id}/${foto.name}`)
+              .ref(`fotos/${getId}/${foto.name}`)
               .put(foto);
             storageRef.on(
               `state_changed`,
@@ -1021,18 +1017,13 @@ export default {
               (error) => {
                 console.log(error.message);
               }
-              // () => {
-              //   storageRef.snapshot.ref.getDownloadURL().then((url) => {
-              //     console.log(url);
-              //   });
-              // }
             );
           });
           // forEach para insertar documentos en storage
           self.archivosSubir.forEach(function (archivo) {
             const storageRef = f
               .storage()
-              .ref(`documentos/${docRef.id}/${archivo.name}`)
+              .ref(`documentos/${getId}/${archivo.name}`)
               .put(archivo);
             storageRef.on(
               `state_changed`,
@@ -1046,12 +1037,102 @@ export default {
           });
 
           setTimeout(function () {
-            self.$router.replace("perfil-propiedad/" + docRef.id);
+            self.$router.replace("perfil-propiedad/" + getId);
           }, 1501);
         })
         .catch(function (error) {
           console.error("Error adding document: ", error);
         });
+      } else {
+        db.collection("propiedades")
+          .add({
+            titulo: self.titulo,
+            tipo: self.tipo,
+            descripcion: self.descripcion,
+            precio: self.precio,
+            uid: user.uid,
+            provincia: selectedCity,
+            canton:selectedCanton,
+            distrito:selectedDistrito,
+            direccionPropiedad:self.direccionPropiedad,
+            lat: self.lat,
+            lng: self.lng,
+            area_terreno: self.area_terreno,
+            tipo_medida: self.tipo_medida,
+            contaran_clientes: self.contaran_clientes,
+            frente_terreno_acceso: self.frente_terreno_acceso,
+            frente_terreno_acceso_id: self.frente_terreno_acceso_id,
+            mejor_vista: self.mejor_vista,
+            acceso: self.acceso,
+            frente: self.frente,
+            arriba: self.arriba,
+            nivel_terreno: self.nivel_terreno,
+            topografia: self.topografia,
+            file_plano_de_catastro: self.file_plano_de_catastro,
+            file_uso_de_suelo: self.file_uso_de_suelo,
+            file_disponibilidad_de_agua: self.file_disponibilidad_de_agua,
+            file_disponibilidad_electrica: self.file_disponibilidad_electrica,
+            file_visado_municipal: self.file_visado_municipal,
+          })
+          .then(function (docRef) {
+            Swal.fire({
+              title: "Guardando",
+              text:
+                "La propiedad se guardó satisfactoriamente. Se redirigirá al perfil de la propiedad.",
+              position: "top-end",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+
+            // forEach para insertar fotos en storage
+            self.fotos.forEach(function (foto) {
+              const storageRef = f
+                .storage()
+                .ref(`fotos/${docRef.id}/${foto.name}`)
+                .put(foto);
+              storageRef.on(
+                `state_changed`,
+                (snapshot) => {
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                },
+                (error) => {
+                  console.log(error.message);
+                }
+                // () => {
+                //   storageRef.snapshot.ref.getDownloadURL().then((url) => {
+                //     console.log(url);
+                //   });
+                // }
+              );
+            });
+            // forEach para insertar documentos en storage
+            self.archivosSubir.forEach(function (archivo) {
+              const storageRef = f
+                .storage()
+                .ref(`documentos/${docRef.id}/${archivo.name}`)
+                .put(archivo);
+              storageRef.on(
+                `state_changed`,
+                (snapshot) => {
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                },
+                (error) => {
+                  console.log(error.message);
+                }
+              );
+            });
+
+            setTimeout(function () {
+              self.$router.replace("perfil-propiedad/" + docRef.id);
+            }, 1501);
+          })
+          .catch(function (error) {
+            console.error("Error adding document: ", error);
+          });
+      }
+
+        
     }, // guardarForm
     
     formatoPrecio(){
@@ -1060,6 +1141,88 @@ export default {
     }
   },
   created() {
+    const getId = this.$route.params.id;
+    let self = this
+    // Si hay getId es una edición
+    if(getId) {
+      let dPropiedad = db.collection("propiedades").doc(getId);
+      dPropiedad
+      .get()
+      .then(function (docProp) {
+        self.titulo = docProp.data().titulo;
+        self.tipo = docProp.data().tipo;
+        self.descripcion = docProp.data().descripcion;
+        self.precio = docProp.data().precio;
+        let provincia = document.getElementById("selectPrv");
+        provincia.options[provincia.selectedIndex].text = docProp.data().provincia;
+        let canton = document.getElementById("selectCtn");
+        canton.options[canton.selectedIndex].text = docProp.data().canton;
+        let distrito = document.getElementById("selectDtt");
+        distrito.options[distrito.selectedIndex].text = docProp.data().distrito;
+        self.direccionPropiedad = docProp.data().direccionPropiedad;
+        self.lat = docProp.data().lat;
+        self.lng = docProp.data().lng;
+        self.selectedZoom = 15;
+        self.area_terreno = docProp.data().area_terreno;
+        self.tipo_medida = docProp.data().tipo_medida;
+        self.contaran_clientes = docProp.data().contaran_clientes;
+        self.frente_terreno_acceso = docProp.data().frente_terreno_acceso;
+        self.frente_terreno_acceso_id = docProp.data().frente_terreno_acceso_id;
+        self.nivel_terreno = docProp.data().nivel_terreno;
+        self.topografia = docProp.data().topografia;
+        // Fotos
+        self.mejor_vista = docProp.data().mejor_vista;
+        self.acceso = docProp.data().acceso;
+        self.frente = docProp.data().frente;
+        self.arriba = docProp.data().arriba;
+        // Documentos
+        self.file_plano_de_catastro = docProp.data().file_plano_de_catastro;
+        self.file_uso_de_suelo = docProp.data().file_uso_de_suelo;
+        self.file_disponibilidad_de_agua = docProp.data().file_disponibilidad_de_agua;
+        self.file_disponibilidad_electrica = docProp.data().file_disponibilidad_electrica;
+        self.file_visado_municipal = docProp.data().file_visado_municipal;
+
+        let tituloFotos = [
+          docProp.data().mejor_vista, 
+          docProp.data().acceso,
+          docProp.data().frente, 
+          docProp.data().arriba
+          ];
+
+        tituloFotos.forEach((titulo, index) => {
+          if(titulo) {
+            f.storage()
+              .ref("fotos/" + getId + "/" + titulo)
+              .getDownloadURL()
+              .then((imgUrl) => {
+                if(index === 0) document.getElementById('blah1').src = imgUrl
+                if(index === 1) document.getElementById('blah2').src = imgUrl
+                if(index === 2) document.getElementById('blah3').src = imgUrl
+                if(index === 3) document.getElementById('blah4').src = imgUrl
+              });
+          }
+        });
+
+        let tituloArchivos = [docProp.data().file_plano_de_catastro, docProp.data().file_uso_de_suelo, docProp.data().file_disponibilidad_de_agua, docProp.data().file_disponibilidad_electrica, docProp.data().file_visado_municipal];
+
+        tituloArchivos.forEach((titulo, index) => {
+          if(titulo) {
+            f.storage()
+              .ref("documentos/" + getId + "/" + titulo)
+              .getDownloadURL()
+              .then((docUrl) => {
+                if(index === 0) self.ver_plano_de_catastro = docUrl
+                if(index === 1) self.ver_uso_de_suelo = docUrl
+                if(index === 2) self.ver_disponibilidad_de_agua = docUrl
+                if(index === 3) self.ver_disponibilidad_electrica = docUrl
+                if(index === 4) self.ver_visado_municipal = docUrl
+              });
+          }
+        });
+      })
+    }
+
+
     //provincias inicial
     fetch("https://ubicaciones.paginasweb.cr/provincias.json")
       .then((prvs) => prvs.json())
