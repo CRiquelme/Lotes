@@ -8,7 +8,7 @@
             </div>
 
             <!-- historial de chats -->
-            <div class="w-full h-full bg-gray-200">
+            <div class="w-full max-h-100 bg-gray-200 overflow-x-hidden overflow-y-scroll">
                 <!-- mensaje -->
                 <div class="flex h-20 m-2" v-for="(m,i) in convSelected" :key="i">
                     <div class="h-20 w-1/3" v-if="m[1].fromEmail==fromEmail"></div>
@@ -132,32 +132,35 @@
         },
         methods: {
             sendMessage(){
-                const newMessage={
-                    fromID:this.fromID,
-                    fromEmail:this.fromEmail,
-                    toID:this.toID,
-                    toEmail:this.toEmail,
-                    message:this.newMessageText,
-                    date:firebase.firestore.FieldValue.serverTimestamp()
+                if (this.toEmail && this.newMessageText){
+                    const newMessage={
+                        fromID:this.fromID,
+                        fromEmail:this.fromEmail,
+                        toID:this.toID,
+                        toEmail:this.toEmail,
+                        message:this.newMessageText,
+                        date:firebase.firestore.FieldValue.serverTimestamp()
+                    }
+                    db.collection("mensajes").add(newMessage)
+                    .then((docID)=>{
+                        //cambia el modelo local
+                        this.messagesList.push([docID,newMessage])
+                        this.newMessageText=""
+                        
+                    })
+                    .then(()=>{
+                        //notifica por correo usando LoadScript en main.js y smtpjs.com
+                        window.Email.send({
+                            SecureToken : "15b50171-a11e-4dbf-a5d6-9525e51cff72",
+                            To : this.toEmail,
+                            From : "notificacioneswebapp@gmail.com",
+                            Subject : "CR-Lotes: TIENES UN NUEVO MENSAJE SIN LEER📧",
+                            Body : "Tienes un nuevo mensaje sin leer en CR-Lotes. Ve a revisar dando click acá http://localhost:8080/mensajes"
+                    })
+                    })
+                    .catch(err=>console.error(err))
+
                 }
-                db.collection("mensajes").add(newMessage)
-                .then((docID)=>{
-                    //cambia el modelo local
-                    this.messagesList.push([docID,newMessage])
-                    this.newMessageText=""
-                    
-                })
-                .then(()=>{
-                    //notifica por correo usando LoadScript en main.js y smtpjs.com
-                    window.Email.send({
-                        SecureToken : "15b50171-a11e-4dbf-a5d6-9525e51cff72",
-                        To : this.toEmail,
-                        From : "notificacioneswebapp@gmail.com",
-                        Subject : "CR-Lotes: TIENES UN NUEVO MENSAJE SIN LEER📧",
-                        Body : "Tienes un nuevo mensaje sin leer en CR-Lotes. Ve a revisar dando click acá http://localhost:8080/mensajes"
-                })
-                })
-                .catch(err=>console.error(err))
             },
             showHideConversaciones(){
                 this.showConversaciones=!this.showConversaciones
