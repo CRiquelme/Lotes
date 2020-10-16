@@ -1,108 +1,129 @@
  <template>
-   <div>
-       <div>
-            <span>
-                Provincia:
-                <select 
-                    @change="ProvinciaChange"
-                    name="Provincia"
-                    id="selectPrv" >
-                    <option 
-                        v-for="pr in provincias" 
-                        :key="pr.key"
-                        :value="pr.key" >{{pr.value}}</option>
-                </select>
-            </span>
-            <span>
-                Cantón:
-                <select 
-                    v-if="cantones"
-                    @change="CantonChange" 
-                    name="Cantones"
-                    id="selectCtn" >
-                    <option 
-                        v-for="ct in cantones" 
-                        :key="ct.key"
-                        :value="ct.key" >{{ct.value}}</option>
-                </select>
-            </span>
-            <span>
-                Distrito:
-                <select 
-                    v-if="distritos"
-                    @change="DistritoChange" 
-                    name="Distritos"
-                    id="selectDtt" >
-                    
-                    <option 
-                        v-for="dt in distritos" 
-                        :key="dt.key"
-                        :value="dt.key" >{{dt.value}}</option>
-                </select>
-            </span>
+    <div class="">
+        <div class="container m-auto">
+            <!-- selección de provincia, cantón y distrito -->
+            <div class="m-4 inline">
+                    <div class="flex flex-col rounded border px-2">
+                        <span class="text-xl mb-8 ">Selecciona dónde quieres hacer la busqueda de inmuebles: </span>
+                        <!-- provincia -->
+                        <span class="m-2 text-xl">
+                            Provincia:
+                            <select 
+                                @change="ProvinciaChange"
+                                name="Provincia"
+                                id="selectPrv" >
+                                <option 
+                                    v-for="pr in provincias" 
+                                    :key="pr.key"
+                                    :value="pr.key" >{{pr.value}}</option>
+                            </select>
+                        </span>
+                        <!-- cantón -->
+                        <span class="m-2 text-xl">
+                            Cantón:
+                            <select 
+                                v-if="cantones"
+                                @change="CantonChange" 
+                                name="Cantones"
+                                id="selectCtn" >
+                                <option 
+                                    v-for="ct in cantones" 
+                                    :key="ct.key"
+                                    :value="ct.key" >{{ct.value}}</option>
+                            </select>
+                        </span>
+                        <!-- distrito -->
+                        <span class="m-2 text-xl">
+                            Distrito:
+                            <select 
+                                v-if="distritos"
+                                @change="DistritoChange" 
+                                name="Distritos"
+                                id="selectDtt" >
+                                
+                                <option 
+                                    v-for="dt in distritos" 
+                                    :key="dt.key"
+                                    :value="dt.key" >{{dt.value}}</option>
+                            </select>
+                        </span>
+                    </div>
 
-       </div>
+            </div>
+                <!-- selección de tipo de inmueble -->
+            <div class="flex flex-col rounded border px-2">
+                <span class="text-xl m-2 ">Selecciona el tipo de inmueble (puedes seleccionar varios): </span>
+                <div class="flex justify-around">
+                    <span class="text-xl m-2">
+                        <input 
+                            type="checkbox" 
+                            name="Lote" 
+                            id="cbxLote"
+                            v-model="CbxLote">
+                            <img src="images/country_48px.png" alt="Lote">
+                            Lote
+                    </span>
+                    <span class="text-xl m-2">
+                        <input 
+                            type="checkbox" 
+                            name="Apartamento" 
+                            id="cbxApartamento"
+                            v-model="CbxApartamento">
+                                <img src="images/building_40px.png" alt="apartamento">
+                                Apartamento
+                    </span>
+                    <span class="text-xl m-2 ">
+                        <input 
+                            type="checkbox" 
+                            name="Casa" 
+                            id="cbxCasa"
+                            v-model="CbxCasa">
+                            <img src="images/house_48px.png" alt="casa">
+                            Casa
+                    </span>
 
-        <div>
-            <span>
-                <input 
-                    type="checkbox" 
-                    name="Apartamento" 
-                    id="cbxApartamento"
-                    v-model="CbxApartamento">
-                Apartamento
-            </span>
-            <span>
-                <input 
-                    type="checkbox" 
-                    name="Casa" 
-                    id="cbxCasa"
-                    v-model="CbxCasa">
-                Casa
-            </span>
-            <span>
-                <input 
-                    type="checkbox" 
-                    name="Lote" 
-                    id="cbxLote"
-                    v-model="CbxLote">
-                Lote
-            </span>
-        </div>
-        <div>
-            <input type="button" value="BUSCAR EN ESTA ÁREA" class="h-10 p-2 m-2" @click="Buscar">
-        </div>
-
-        <GmapMap
-            :center="selectedCenter"
-            :zoom="selectedZoom"
-            mapTypeControl= "false"
-            streetViewControl= "false"
-            class="w-full h-64"
-            ref='mapRef'>
-                <GmapMarker
-                    :key="index"
-                    v-for="(p, index) in propiedades"
-                    :position={lat:p.lat,lng:p.lng}
-                    @click="SelecetPropiedad()"
-                    />
-        </GmapMap>
-
-        <div class="flex">
-            <div class="max-w-sm rounded overflow-hidden shadow-lg m-4"
-                v-for="prop in propiedades"
-                :key="prop.id">
-                <img class="w-full" src="https://i.picsum.photos/id/894/600/600.jpg?hmac=wJg2bcsTpfgAb0eYMLFbhzwiEUMTMBwtBf-yvdY491k" alt="Sunset in the mountains">
-                <div class="px-6 py-4">
-                    <div class="font-bold text-xl mb-2">{{ prop.titulo }}</div>
-                    <p class="text-gray-700 text-base">
-                        {{ prop.descripcion }}
-                    </p>
-                    <span> Código propiedad {{ prop.id }}</span>
                 </div>
-                <div class="px-6 pt-4 pb-2">
-                    <span v-for="(comodidad,n) in prop.contaran_clientes" :key=n class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ comodidad }}</span>
+            </div>
+            <!-- botón -->
+            <div class="m-2 w-full flex justify-center">
+                <input type="button" value="BUSCAR EN ESTA ÁREA" class="bg-blue-500      hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded text-lg m-2 " @click="Buscar">
+            </div>
+            <!-- mapa -->
+            <GmapMap
+                :center="selectedCenter"
+                :zoom="selectedZoom"
+                mapTypeControl= "false"
+                streetViewControl= "false"
+                class="w-full h-64"
+                ref='mapRef'>
+                    <GmapMarker
+                        :key="index"
+                        v-for="(p, index) in propiedades"
+                        :position={lat:p.lat,lng:p.lng}
+                        @click="SelecetPropiedad()"
+                        />
+            </GmapMap>
+            <!-- cards -->
+            <div class="flex w-full">
+                <div class="w-11/12 md:w-1/4 rounded overflow-hidden shadow-lg m-4"
+                    v-for="prop in propiedades"
+                    :key="prop.id">
+                    <img class="w-full" src="https://i.picsum.photos/id/894/600/600.jpg?hmac=wJg2bcsTpfgAb0eYMLFbhzwiEUMTMBwtBf-yvdY491k" alt="Sunset in the mountains">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2">{{ prop.titulo }}</div>
+                        <p class="text-gray-700 text-base">
+                            {{ prop.descripcion }}
+                        </p>
+                        <span> Código propiedad {{ prop.id }}</span>
+                    </div>
+                    <div class="px-6 pt-4 pb-2">
+                        <span v-for="(comodidad,n) in prop.contaran_clientes" :key=n class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ comodidad }}</span>
+                    </div>
                 </div>
+            </div>
+            <!-- aviso de sin nada que mostrar -->
+            <div v-if="propiedades==false" class="bg-gray-200 text-3xl m-4 w-full h-20 flex justify-center items-center">
+                Ups! Nada que mostrar. Pulsa el botón BUSCAR EN ESTA ÁREA o cambia el área en el mapa. 
             </div>
         </div>
    </div>
@@ -134,6 +155,15 @@
             fetch('https://ubicaciones.paginasweb.cr/provincias.json')
             .then(prvs=>prvs.json())
             .then(ps=>Object.entries(ps).forEach(([key,value])=>(this.provincias.push({key,value}))))
+
+            //llena con 5 propiedades
+            db.collection('propiedades')
+            .limit(3)
+            .get()
+            .then((props)=>{props.forEach(prop=>{
+                this.propiedades.push(prop.data())
+                console.log(prop.data())
+            })})
         },
         updated () {
             this.$refs.mapRef.$mapPromise
@@ -141,6 +171,8 @@
         },
         methods:{
             ProvinciaChange(){
+                //limpia datos
+                this.propiedades=[]
                 //recupera coordenadas
                 const selectedCity=document.getElementById('selectPrv').selectedOptions[0].outerText
                 var addressObj = {
@@ -171,6 +203,8 @@
             },
             
             CantonChange(){
+                //limpia datos
+                this.propiedades=[]
                 //recupera coordenadas
                 const selectedCanton=document.getElementById('selectCtn').selectedOptions[0].outerText
                 const selectedCity=document.getElementById('selectPrv').selectedOptions[0].outerText
@@ -200,6 +234,8 @@
             },
 
             DistritoChange(){
+                //limpia datos
+                this.propiedades=[]
                 //recupera coordenadas
                 const selectedDistrito=document.getElementById('selectDtt').selectedOptions[0].outerText
                 const selectedCanton=document.getElementById('selectCtn').selectedOptions[0].outerText
