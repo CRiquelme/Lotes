@@ -48,14 +48,14 @@
                             </select>
                         </span>
                     </div>
-
             </div>
-                <!-- selección de tipo de inmueble -->
+            <!-- selección de tipo de inmueble -->
             <div class="flex flex-col rounded border px-2">
                 <span class="text-xl m-2 ">Selecciona el tipo de inmueble (puedes seleccionar varios): </span>
                 <div class="flex justify-around">
-                    <span class="text-xl m-2">
+                    <span class="text-xl m-2 flex flex-col items-center">
                         <input 
+                            class="m-1"
                             type="checkbox" 
                             name="Lote" 
                             id="cbxLote"
@@ -63,8 +63,9 @@
                             <img src="images/country_48px.png" alt="Lote">
                             Lote
                     </span>
-                    <span class="text-xl m-2">
+                    <span class="text-xl m-2 flex flex-col items-center">
                         <input 
+                            class="m-1"
                             type="checkbox" 
                             name="Apartamento" 
                             id="cbxApartamento"
@@ -72,8 +73,9 @@
                                 <img src="images/building_40px.png" alt="apartamento">
                                 Apartamento
                     </span>
-                    <span class="text-xl m-2 ">
+                    <span class="text-xl m-2 flex flex-col items-center ">
                         <input 
+                            class="m-1"
                             type="checkbox" 
                             name="Casa" 
                             id="cbxCasa"
@@ -104,8 +106,9 @@
                         />
             </GmapMap>
             <!-- cards -->
-            <div class="flex w-full">
-                <div class="w-11/12 md:w-1/4 rounded overflow-hidden shadow-lg m-4"
+            <div class="w-full inline">
+
+                <div class="rounded overflow-hidden shadow-lg m-2 w-11/12 md:w-1/2 lg:w-1/3"
                     v-for="prop in propiedades"
                     :key="prop.id">
                     <img class="w-full" src="https://i.picsum.photos/id/894/600/600.jpg?hmac=wJg2bcsTpfgAb0eYMLFbhzwiEUMTMBwtBf-yvdY491k" alt="Sunset in the mountains">
@@ -122,8 +125,8 @@
                 </div>
             </div>
             <!-- aviso de sin nada que mostrar -->
-            <div v-if="propiedades==false" class="bg-gray-200 text-3xl m-4 w-full h-20 flex justify-center items-center">
-                Ups! Nada que mostrar. Pulsa el botón BUSCAR EN ESTA ÁREA o cambia el área en el mapa. 
+            <div v-if="propiedades==false"  class="bg-gray-200 text-3xl m-4 w-full h-20 flex justify-center items-center">
+                Ups! Nada que mostrar. <br> Pulsa el botón BUSCAR EN ESTA ÁREA o cambia el área en el mapa. 
             </div>
         </div>
    </div>
@@ -149,6 +152,7 @@
                 minLat:0
             }
         },
+        
         created(){
             //llena lista desplegable de provincias
             this.provincias.push("")
@@ -162,13 +166,14 @@
             .get()
             .then((props)=>{props.forEach(prop=>{
                 this.propiedades.push(prop.data())
-                console.log(prop.data())
             })})
         },
+        
         updated () {
             this.$refs.mapRef.$mapPromise
             .then((map) => this.map=map);
         },
+        
         methods:{
             ProvinciaChange(){
                 //limpia datos
@@ -254,6 +259,7 @@
                 })
                 this.selectedZoom=15
             },
+            
             Buscar(){
                 this.propiedades=[]
                 this.$refs.mapRef.$mapPromise
@@ -269,6 +275,7 @@
                     this.QueryFirebase(this.CbxLote,"Lote",minLat,maxLat,minLng,maxLng)
                 } )
             },
+            
             QueryFirebase(chkbx,t,minLat,maxLat,minLng,maxLng){
                 if(chkbx){
                     db.collection('propiedades')
@@ -287,6 +294,7 @@
                     })})
                 }
             },
+            
             SelecetPropiedad(){
 
             },

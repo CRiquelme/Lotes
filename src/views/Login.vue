@@ -97,7 +97,7 @@ export default {
   created: function () {
     var user = f.auth().currentUser;
     if (user != null) {
-      this.$router.replace("home");
+      this.$router.replace("/");
     }
   },
   methods: {
@@ -108,7 +108,7 @@ export default {
       } else {
         f.auth()
           .signInWithEmailAndPassword(this.email, this.contrasena)
-          .then(() => this.$router.replace("home"))
+          .then(() => this.$router.replace("/"))
           .then(() => {
             const Toast = Swal.mixin({
               toast: true,
