@@ -203,7 +203,7 @@ export default {
       uid: "",
       datosUser: "",
       info: [],
-      selectedCenter: {lat:0,lng:0},
+      selectedCenter: { lat: 0, lng:0 },
       selectedZoom: 14,
       ver_uso_de_suelo: '',
       ver_disponibilidad_de_agua: '',

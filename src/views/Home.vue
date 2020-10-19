@@ -113,10 +113,29 @@
             </div>
 
             <!-- cards -->
-            <div class="w-full grid md:grid-cols-2 lg:grid-cols-3 xl;grid-cols-4">
-                <Card v-for="(propiedad, n) in propiedades" :key="n" :propiedad="propiedad"
-                @selectPropiedad="selectPropiedad"></Card>
-            </div>
+                <div class="w-full" uk-slider>
+                    <div class="uk-position-relative">
+                        <div class="uk-slider-container uk-dark">
+                        
+                            <ul class="uk-slider-items uk-child-width-1-2@s  uk-child-width-1-3@m uk-child-width-1-1@">
+                                <li v-for="(propiedad, n) in propiedades" :key="n" class="ml-1">
+                                    <Card  :propiedad="propiedad"></Card>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="uk-hidden@s uk-light">
+                            <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                            <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
+                        </div>
+
+                        <div class="uk-visible@s">
+                            <a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                            <a class="uk-position-center-right-out uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
+                        </div>
+
+                    </div>
+                    <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
+                </div>
             
             <!-- avisos -->
             <Cargando v-show="showCargando"></Cargando>
@@ -134,10 +153,10 @@
     import "firebase/auth";
 
     import Cargando from "@/components/Cargando";
-    import Card from "@/components/Card"
+    import Card from "@/components/Card";
     export default {
         name:"Home",
-        components:{Card,Cargando},
+        components:{ Card, Cargando },
         data(){
             return{
                 propiedades:[],
@@ -155,6 +174,7 @@
         },
         
         created(){
+            let self = this
             //llena lista desplegable de provincias
             this.provincias.push("")
             fetch('https://ubicaciones.paginasweb.cr/provincias.json')
@@ -163,13 +183,11 @@
             
             //llena con 3 propiedades
             db.collection('propiedades')
-            .limit(3)
+            //.limit(3)
             .get()
             .then((props)=>{props.forEach(prop=>{
-                const newPropiedad=prop.data()
-                Object.assign(newPropiedad,{id:prop.id})
-
-                this.propiedades.push(newPropiedad)
+                let data = { ...prop.data(), propid: prop.id };
+                self.propiedades.push(data)
             })})
         },
         

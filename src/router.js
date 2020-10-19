@@ -45,7 +45,7 @@ const router = new Router({
       },
     },
     { 
-      path: "/perfil/:id", 
+      path: "/perfil-usuario/:id", 
       component: PerfilUsuario,
       meta: {
         autentificado: true,

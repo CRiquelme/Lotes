@@ -112,7 +112,7 @@
               <ul class="uk-slideshow-items">
                 <li v-for="foto in propiedad.fotos" :key="foto">
                   <img
-                    class="w-full h-48 object-cover object-center"
+                    class="w-full object-cover object-center"
                     :src="foto"
                     :alt="foto"
                   />
