@@ -114,7 +114,8 @@
 
             <!-- cards -->
             <div class="w-full grid md:grid-cols-2 lg:grid-cols-3 xl;grid-cols-4">
-                <Card v-for="(propiedad, n) in propiedades" :key="n" :propiedad="propiedad"></Card>
+                <Card v-for="(propiedad, n) in propiedades" :key="n" :propiedad="propiedad"
+                @selectPropiedad="selectPropiedad"></Card>
             </div>
             
             <!-- avisos -->
@@ -175,6 +176,9 @@
         },
         
         methods:{
+            selectPropiedad(id){
+                console.log(id)
+            },
             ProvinciaChange(){
                 //limpia datos
                 this.propiedades=[]

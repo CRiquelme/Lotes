@@ -12,7 +12,8 @@
 
         <!-- Botón Detalles -->
         <div class="m-2 w-full flex justify-center">
-            <input type="button" value="VER DETALLES" class="bg-blue-500      hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded text-lg m-2">
+            <input type="button" value="VER DETALLES" class="bg-blue-500      hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded text-lg m-2"
+            @click="selectPropiedad">
         </div>
 
         <!-- Tags -->
@@ -28,6 +29,12 @@
         name:"Card",
         props:{
                 propiedad:{type:Object, required:true}
+        },
+        methods:{
+            selectPropiedad(){
+                //este es un componente hijo que para mandar información del ID de la propiedad al componente padre tiene que emitir un evento con $emit, así el padre lo podrá escuchar.
+                this.$emit('selectPropiedad',this.propiedad)
+            }
         }
     }
 </script>>
