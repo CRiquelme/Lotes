@@ -3,7 +3,7 @@
     <header class="bg-gray-800 py-2 text-white">
       <div class="container mx-auto flex items-center justify-between pt-5">
         <div class="flex">
-          <router-link to="/home" class="inline-block hover:no-underline">
+          <router-link to="/" class="inline-block hover:no-underline">
             <h2 id="titulo" class="text-lg lg:text-3xl text-white pl-1 lg:pl-0">
               CR-Lotes
             </h2>
