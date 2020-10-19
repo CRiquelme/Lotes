@@ -75,7 +75,7 @@ const router = new Router({
       },
     },
     {
-      path: "/mensajes",
+      path: "/mensajes/:id",
       name: "Mensajes",
       component: Mensajes,
       meta: {
