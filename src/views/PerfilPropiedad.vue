@@ -202,7 +202,7 @@ export default {
   filters: {
     precio: function(value){
       let precioFormateado = new Intl.NumberFormat().format(value)
-      return "₡" + precioFormateado
+      return precioFormateado + "₡"
     }
   },
   mounted: function () {
