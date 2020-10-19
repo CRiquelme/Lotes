@@ -8,7 +8,7 @@ import Publicar from "@/views/Publicar";
 import PerfilUsuario from "@/views/PerfilUsuario";
 import PerfilPropiedad from "@/views/PerfilPropiedad";
 import Mensajes from "@/views/Mensajes";
-// import firebase from "firebase";
+ import firebase from "firebase";
 Vue.use(Router);
 
 const router = new Router({
@@ -44,32 +44,55 @@ const router = new Router({
         autentificado: true,
       },
     },
-    { path: "/perfil-usuario/:id", component: PerfilUsuario, name: 'perfilusuario' },
-    { path: "/perfil-propiedad/:id", component: PerfilPropiedad, name: 'perfilpropiedad' },
-    { path: "/publicar/:id", component: Publicar },
+    { 
+      path: "/perfil/:id", 
+      component: PerfilUsuario,
+      meta: {
+        autentificado: true,
+      },
+     },
+    { 
+      path: "/perfil-propiedad/:id", 
+      component: PerfilPropiedad, 
+      name: 'perfilpropiedad',
+      meta: {
+        autentificado: true,
+      },
+    },
+    { 
+      path: "/publicar/:id", 
+      component: Publicar,
+      meta: {
+        autentificado: true,
+      },
+    },
     {
       path: "/publicar",
       name: "Publicar",
       component: Publicar,
+      meta: {
+        autentificado: true,
+      },
     },
     {
       path: "/mensajes",
       name: "Mensajes",
       component: Mensajes,
+      meta: {
+        autentificado: true,
+      },
     },
   ],
 });
 
-// router.beforeEach((to, from, next) => {
-//   let usuario = firebase.auth().currentUser;
-//   let autorizacion = to.matched.some((record) => record.meta.autentificado);
-//   console.log(usuario);
-//   if (autorizacion && !usuario) {
-//     next({ name: "Login" });
-//   } else if (!autorizacion && usuario) {
-//     next("Home");
-//   } else {
-//     next();
-//   }
-// });
+ router.beforeEach((to, from, next) => {
+   let usuario = firebase.auth().currentUser;
+   let autorizacion = to.matched.some((record) => record.meta.autentificado);
+
+   if (autorizacion && !usuario) {
+     next({ name: "Login" });
+   } else {
+     next();
+   }
+ });
 export default router;

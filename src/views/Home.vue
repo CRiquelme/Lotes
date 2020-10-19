@@ -1,95 +1,96 @@
  <template>
     <div class="">
         <div class="container m-auto">
-            <!-- selección de provincia, cantón y distrito -->
-            <div class="m-4 inline">
-                    <div class="flex flex-col rounded border px-2">
-                        <span class="text-xl mb-8 ">Selecciona dónde quieres hacer la busqueda de inmuebles: </span>
-                        <!-- provincia -->
-                        <span class="m-2 text-xl">
-                            Provincia:
-                            <select 
-                                @change="ProvinciaChange"
-                                name="Provincia"
-                                id="selectPrv" >
-                                <option 
-                                    v-for="pr in provincias" 
-                                    :key="pr.key"
-                                    :value="pr.key" >{{pr.value}}</option>
-                            </select>
-                        </span>
-                        <!-- cantón -->
-                        <span class="m-2 text-xl">
-                            Cantón:
-                            <select 
-                                v-if="cantones"
-                                @change="CantonChange" 
-                                name="Cantones"
-                                id="selectCtn" >
-                                <option 
-                                    v-for="ct in cantones" 
-                                    :key="ct.key"
-                                    :value="ct.key" >{{ct.value}}</option>
-                            </select>
-                        </span>
-                        <!-- distrito -->
-                        <span class="m-2 text-xl">
-                            Distrito:
-                            <select 
-                                v-if="distritos"
-                                @change="DistritoChange" 
-                                name="Distritos"
-                                id="selectDtt" >
-                                
-                                <option 
-                                    v-for="dt in distritos" 
-                                    :key="dt.key"
-                                    :value="dt.key" >{{dt.value}}</option>
-                            </select>
-                        </span>
-                    </div>
-            </div>
-            <!-- selección de tipo de inmueble -->
-            <div class="flex flex-col rounded border px-2">
-                <span class="text-xl m-2 ">Selecciona el tipo de inmueble (puedes seleccionar varios): </span>
-                <div class="flex justify-around">
-                    <span class="text-xl m-2 flex flex-col items-center">
-                        <input 
-                            class="m-1"
-                            type="checkbox" 
-                            name="Lote" 
-                            id="cbxLote"
-                            v-model="CbxLote">
-                            <img src="images/country_48px.png" alt="Lote">
-                            Lote
-                    </span>
-                    <span class="text-xl m-2 flex flex-col items-center">
-                        <input 
-                            class="m-1"
-                            type="checkbox" 
-                            name="Apartamento" 
-                            id="cbxApartamento"
-                            v-model="CbxApartamento">
-                                <img src="images/building_40px.png" alt="apartamento">
-                                Apartamento
-                    </span>
-                    <span class="text-xl m-2 flex flex-col items-center ">
-                        <input 
-                            class="m-1"
-                            type="checkbox" 
-                            name="Casa" 
-                            id="cbxCasa"
-                            v-model="CbxCasa">
-                            <img src="images/house_48px.png" alt="casa">
-                            Casa
-                    </span>
 
+            <!-- criterios de búsqueda -->
+            <div class="grid md:grid-cols-2 my-4 border">
+                <!-- selección de provincia, cantón y distrito -->
+                <div class="flex flex-col rounded border px-2">
+                    <span class="text-xl mb-8 font-semibold text-3xl">Selecciona la ubicación deseada: </span>
+                    <!-- provincia -->
+                    <span class="m-2 text-xl select flex">
+                        <span class="font-semibold"> Provincia:</span>
+                        <select 
+                            class="w-full border ml-2"
+                            @change="ProvinciaChange"
+                            name="Provincia"
+                            id="selectPrv" >
+                            <option 
+                                v-for="pr in provincias" 
+                                :key="pr.key"
+                                :value="pr.key" >{{pr.value}}</option>
+                        </select>
+                    </span>
+                    <!-- cantón -->
+                    <span class="m-2 text-xl select flex">
+                        <span class="font-semibold"> Cantón:</span>
+                        <select 
+                            class="w-full border ml-2"
+                            @change="CantonChange" 
+                            name="Cantones"
+                            id="selectCtn" >
+                            <option 
+                                v-for="ct in cantones" 
+                                :key="ct.key"
+                                :value="ct.key" >{{ct.value}}</option>
+                        </select>
+                    </span>
+                    <!-- distrito -->
+                    <span class="m-2 text-xl select flex">
+                        <span class="font-semibold"> Distrito:</span>
+                        <select 
+                            class="w-full border ml-2"
+                            @change="DistritoChange" 
+                            name="Distritos"
+                            id="selectDtt" >
+                            
+                            <option 
+                                v-for="dt in distritos" 
+                                :key="dt.key"
+                                :value="dt.key" >{{dt.value}}</option>
+                        </select>
+                    </span>
+                </div>
+
+                <!-- selección de tipo de inmueble -->
+                <div class="flex flex-col rounded border px-2">
+                    <span class="text-xl mb-8 font-semibold text-3xl">Selecciona el tipo de inmueble (puedes seleccionar varios): </span>
+                    <div class="flex justify-around">
+                        <span class="text-xl m-2 flex flex-col items-center">
+                            <input 
+                                class="m-1"
+                                type="checkbox" 
+                                name="Lote" 
+                                id="cbxLote"
+                                v-model="CbxLote">
+                                <img src="images/country_48px.png" alt="Lote">
+                                Lote
+                        </span>
+                        <span class="text-xl m-2 flex flex-col items-center">
+                            <input 
+                                class="m-1"
+                                type="checkbox" 
+                                name="Apartamento" 
+                                id="cbxApartamento"
+                                v-model="CbxApartamento">
+                                    <img src="images/building_40px.png" alt="apartamento">
+                                    Apartamento
+                        </span>
+                        <span class="text-xl m-2 flex flex-col items-center ">
+                            <input 
+                                class="m-1"
+                                type="checkbox" 
+                                name="Casa" 
+                                id="cbxCasa"
+                                v-model="CbxCasa">
+                                <img src="images/house_48px.png" alt="casa">
+                                Casa
+                        </span>
+
+                    </div>
                 </div>
             </div>
-            <!-- botón -->
-            <div class="m-2 w-full flex justify-center">
-                <input type="button" value="BUSCAR EN ESTA ÁREA" class="bg-blue-500      hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded text-lg m-2 " @click="Buscar">
-            </div>
+
             <!-- mapa -->
             <GmapMap
                 :center="selectedCenter"
@@ -105,26 +106,20 @@
                         @click="SelecetPropiedad()"
                         />
             </GmapMap>
-            <!-- cards -->
-            <div class="w-full inline">
-
-                <div class="rounded overflow-hidden shadow-lg m-2 w-11/12 md:w-1/2 lg:w-1/3"
-                    v-for="prop in propiedades"
-                    :key="prop.id">
-                    <img class="w-full" src="https://i.picsum.photos/id/894/600/600.jpg?hmac=wJg2bcsTpfgAb0eYMLFbhzwiEUMTMBwtBf-yvdY491k" alt="Sunset in the mountains">
-                    <div class="px-6 py-4">
-                        <div class="font-bold text-xl mb-2">{{ prop.titulo }}</div>
-                        <p class="text-gray-700 text-base">
-                            {{ prop.descripcion }}
-                        </p>
-                        <span> Código propiedad {{ prop.id }}</span>
-                    </div>
-                    <div class="px-6 pt-4 pb-2">
-                        <span v-for="(comodidad,n) in prop.contaran_clientes" :key=n class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ comodidad }}</span>
-                    </div>
-                </div>
+            
+            <!-- botón -->
+            <div class="m-2 w-full flex justify-center">
+                <input type="button" value="BUSCAR EN ESTA ÁREA" class="bg-blue-500      hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded text-lg m-2 " @click="Buscar">
             </div>
-            <!-- aviso de sin nada que mostrar -->
+
+            <!-- cards -->
+            <div class="w-full grid md:grid-cols-2 lg:grid-cols-3 xl;grid-cols-4">
+                <Card v-for="(propiedad, n) in propiedades" :key="n" :propiedad="propiedad"></Card>
+            </div>
+            
+            <!-- avisos -->
+            <Cargando v-show="showCargando"></Cargando>
+
             <div v-if="propiedades==false"  class="bg-gray-200 text-3xl m-4 w-full h-20 flex justify-center items-center">
                 Ups! Nada que mostrar. <br> Pulsa el botón BUSCAR EN ESTA ÁREA o cambia el área en el mapa. 
             </div>
@@ -136,8 +131,12 @@
     import Vue from "vue";
     import { db } from "../firebase";
     import "firebase/auth";
+
+    import Cargando from "@/components/Cargando";
+    import Card from "@/components/Card"
     export default {
         name:"Home",
+        components:{Card,Cargando},
         data(){
             return{
                 propiedades:[],
@@ -149,7 +148,8 @@
                 CbxApartamento:true,
                 CbxCasa:true,
                 CbxLote:true,
-                minLat:0
+                minLat:0,
+                showCargando:false
             }
         },
         
@@ -159,7 +159,7 @@
             fetch('https://ubicaciones.paginasweb.cr/provincias.json')
             .then(prvs=>prvs.json())
             .then(ps=>Object.entries(ps).forEach(([key,value])=>(this.provincias.push({key,value}))))
-
+            
             //llena con 5 propiedades
             db.collection('propiedades')
             .limit(3)
@@ -247,7 +247,7 @@
                 const selectedCity=document.getElementById('selectPrv').selectedOptions[0].outerText
                 var addressObj = {
                     city:selectedCity,
-                    state:selectedCanton,          
+                    state:selectedCanton,         
                     zip_code:selectedDistrito,     
                     country:'Costa Rica'
                 }
@@ -261,19 +261,22 @@
             },
             
             Buscar(){
+                this.showCargando=true
                 this.propiedades=[]
                 this.$refs.mapRef.$mapPromise
                 .then(map=>{
+                    
                     const minLat=map.getBounds().Ya.i
                     const maxLat=map.getBounds().Ya.j
                     const minLng=map.getBounds().Sa.i
                     const maxLng=map.getBounds().Sa.j
-                    
    
                     this.QueryFirebase(this.CbxApartamento,"Apartamento",minLat,maxLat,minLng,maxLng)
                     this.QueryFirebase(this.CbxCasa,"Casa",minLat,maxLat,minLng,maxLng)
                     this.QueryFirebase(this.CbxLote,"Lote",minLat,maxLat,minLng,maxLng)
-                } )
+                    this.showCargando=false
+                })
+                
             },
             
             QueryFirebase(chkbx,t,minLat,maxLat,minLng,maxLng){
@@ -289,7 +292,6 @@
                             propLng > minLng &&
                             propLng < maxLng){
                                 this.propiedades.push(prop.data())
-                                console.log(prop.data())
                         }                        
                     })})
                 }
@@ -302,3 +304,5 @@
 
     }
  </script>
+ 
+
