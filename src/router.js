@@ -44,7 +44,7 @@ const router = new Router({
         autentificado: true,
       },
     },
-    { path: "/perfil/:id", component: PerfilUsuario },
+    { path: "/perfil-usuario/:id", component: PerfilUsuario, name: 'perfilusuario' },
     { path: "/perfil-propiedad/:id", component: PerfilPropiedad, name: 'perfilpropiedad' },
     { path: "/publicar/:id", component: Publicar },
     {
