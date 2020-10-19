@@ -161,12 +161,15 @@
             .then(prvs=>prvs.json())
             .then(ps=>Object.entries(ps).forEach(([key,value])=>(this.provincias.push({key,value}))))
             
-            //llena con 5 propiedades
+            //llena con 3 propiedades
             db.collection('propiedades')
             .limit(3)
             .get()
             .then((props)=>{props.forEach(prop=>{
-                this.propiedades.push(prop.data())
+                const newPropiedad=prop.data()
+                Object.assign(newPropiedad,{id:prop.id})
+
+                this.propiedades.push(newPropiedad)
             })})
         },
         
@@ -177,7 +180,7 @@
         
         methods:{
             selectPropiedad(id){
-                console.log(id)
+                this.$router.replace("/perfil-propiedad/" +id)
             },
             ProvinciaChange(){
                 //limpia datos
@@ -295,7 +298,10 @@
                             propLat < maxLat && 
                             propLng > minLng &&
                             propLng < maxLng){
-                                this.propiedades.push(prop.data())
+                                const newPropiedad=prop.data()
+                                Object.assign(newPropiedad,{id:prop.id})
+
+                                this.propiedades.push(newPropiedad)
                         }                        
                     })})
                 }

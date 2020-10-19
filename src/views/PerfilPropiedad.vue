@@ -190,7 +190,7 @@ export default {
       uid: "",
       datosUser: "",
       info: [],
-      selectedCenter: { },
+      selectedCenter: {lat:0,lng:0},
       selectedZoom: 14,
       ver_uso_de_suelo: '',
       ver_disponibilidad_de_agua: '',
@@ -202,10 +202,10 @@ export default {
   filters: {
     precio: function(value){
       let precioFormateado = new Intl.NumberFormat().format(value)
-      return "₡" + precioFormateado
+      return precioFormateado + "₡"
     }
   },
-  created: function () {
+  mounted: function () {
     // capturar datos de usuario
     var user = f.auth().currentUser;
     const getId = this.$route.params.id;
