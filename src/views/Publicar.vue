@@ -1172,7 +1172,7 @@ export default {
     
     formatoPrecio(){
       this.precioFormateado= new Intl.NumberFormat().format(this.precio)
-      this.precioFormateado="₡" + this.precioFormateado
+      this.precioFormateado=this.precioFormateado + "₡" 
     }
   },
   created() {

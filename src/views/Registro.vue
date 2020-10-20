@@ -206,7 +206,7 @@ export default {
   created: function () {
     var user = f.auth().currentUser;
     if (user != null) {
-      this.$router.replace("home");
+      this.$router.replace("/");
     }
   },
 
@@ -228,7 +228,7 @@ export default {
               apellido: self.apellido,
             });
           })
-          .then(() => this.$router.replace("home"))
+          .then(() => this.$router.replace("/"))
           .catch(function (error) {
             var errorCode = error.code;
             // var errorMessage = error.message;

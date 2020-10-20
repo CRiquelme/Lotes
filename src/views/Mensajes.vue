@@ -29,6 +29,7 @@
         name:"Mensajes",
         data(){
             return{
+                fromID:"",
                 fromEmail:"",
                 toEmail:"",
                 idToPropiedad:"",
@@ -38,8 +39,37 @@
         },
         async created(){ 
             this.fromEmail=await f.auth().currentUser.email
+            this.fromID=await f.auth().currentUser.uid
             this.idToPropiedad = this.$route.params.id;
+            let messageTemporal=[]
+            
+            //lista de mensajes que yo mandé
+            await db.collection("mensajes").where("fromEmail","==",this.fromEmail).where("idToPropiedad","==",this.idToPropiedad).get()
+            .then((mensajes)=>{
+                mensajes.forEach(m => {
+                    if(!this.toEmail){
+                        this.toEmail=m.data().toEmail
+                    }
+                    messageTemporal.push([
+                        m.id, 
+                        m.data()])
+                });
+            })
+            //lista de mensajes que me mandaron
+            await db.collection("mensajes").where("toEmail","==",this.fromEmail).where("idToPropiedad","==",this.idToPropiedad).get()
+            .then((mensajes)=>{
+                mensajes.forEach(m => {
+                    if(!this.toEmail){
+                        this.toEmail=m.data().fromEmail
+                    }
+                    messageTemporal.push([
+                        m.id, 
+                        m.data()])
+                });
+            })
 
+            //recupera toEmail si está vacío
+            if(!this.toEmail){
             db.collection("propiedades")
             .doc(this.idToPropiedad).get()
             .then(propData=>
@@ -50,17 +80,13 @@
                         this.toEmail= userData.data().email
                         )
                 })
-            
-            //lista de mensajes donde quien envía es el usuario activo
-            await db.collection("mensajes").where("fromEmail","==",this.fromEmail).where("idToPropiedad","==",this.idToPropiedad).get()
-            .then((mensajes)=>{
-                mensajes.forEach(m => {
-                    this.messagesList.push([
-                        m.id, 
-                        m.data()])
-                });
-            }) 
-            console.log(this.messagesList)
+            }
+
+            //ordena por fecha
+            this.messagesList=messageTemporal.sort( (a, b) =>{
+                return (b.date - a.date)
+            })
+
         },
         methods: {
             sendMessage(){
@@ -68,10 +94,17 @@
                 const newMessage={
                     fromEmail:this.fromEmail,
                     idToPropiedad:this.idToPropiedad,
+                    toEmail:this.toEmail,
                     message:this.newMessageText,
                     date:firebase.firestore.FieldValue.serverTimestamp()
                 }
                  db.collection("mensajes").add(newMessage)
+                 .then((messageId)=>{
+                     //agrega al modelo local
+
+                     this.messagesList.push([messageId.id, newMessage])
+                     this.newMessageText=""
+                 })
                 .then(()=>{
                     //notifica por correo usando LoadScript en main.js y smtpjs.com
                     window.Email.send({
