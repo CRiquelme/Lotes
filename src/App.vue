@@ -2,6 +2,11 @@
   <section id="app">
     <Header id="header"></Header>
     <router-view id="contenido" class="bg-gray-100" />
+    <div class="bottom-0 right-0 mr-5 mb-5 rounded-full h-10 w-12 md:fixed bg-blue-900 text-blue-200 py-2 text-center">
+      <router-link to="/publicar" class="text-blue-200">
+        <i class="far fa-edit"></i>
+      </router-link>
+    </div>
     <Footer id="footer"></Footer>
   </section>
 </template>

@@ -1,124 +1,126 @@
  <template>
-    <div class="">
-        <div class="container m-auto">
-
-            <!-- criterios de búsqueda -->
-            <div class="grid md:grid-cols-2 my-4 border">
-                <!-- selección de provincia, cantón y distrito -->
-                <div class="flex flex-col rounded border px-2">
-                    <span class="text-xl mb-8 font-semibold text-3xl">Selecciona la ubicación deseada: </span>
-                    <!-- provincia -->
-                    <span class="m-2 text-xl select flex">
-                        <span class="font-semibold"> Provincia:</span>
-                        <select 
-                            class="w-full border ml-2"
+    <main class="pb-10">
+        <!-- Filtros y mapa -->
+        <div class="flex flex-col md:flex md:flex-row shadow-lg">
+            <!-- Filtros -->
+            <section class="bg-gray-900 px-2">
+                <div class="lg:container lg:mx-auto px-10 py-10 flex flex-col ">
+                    <!-- Provincia -->
+                    <div class="px-2 mb-2">
+                        <label class="text-blue-100" for="selectPrv">Provincia</label>
+                            <select
+                            class="w-full h-8"
                             @change="ProvinciaChange"
                             name="Provincia"
                             id="selectPrv" >
-                            <option 
-                                v-for="pr in provincias" 
+                                <option
+                                v-for="pr in provincias"
                                 :key="pr.key"
-                                :value="pr.key" >{{pr.value}}</option>
-                        </select>
-                    </span>
-                    <!-- cantón -->
-                    <span class="m-2 text-xl select flex">
-                        <span class="font-semibold"> Cantón:</span>
-                        <select 
-                            class="w-full border ml-2"
-                            @change="CantonChange" 
+                                :value="pr.key" >{{pr.value}}
+                                </option>
+                            </select>
+                    </div>
+                    <!-- Cantón -->
+                    <div class="px-2 mb-2">
+                        <label class="text-blue-100" for="selectCtn">Cantón</label>
+                        <select
+                            class="w-full h-8"
+                            @change="CantonChange"
                             name="Cantones"
-                            id="selectCtn" >
-                            <option 
-                                v-for="ct in cantones" 
-                                :key="ct.key"
-                                :value="ct.key" >{{ct.value}}</option>
+                            id="selectCtn" 
+                        >
+                            <option
+                            v-for="ct in cantones"
+                            :key="ct.key"
+                            :value="ct.key" >{{ct.value}}</option>
                         </select>
-                    </span>
-                    <!-- distrito -->
-                    <span class="m-2 text-xl select flex">
-                        <span class="font-semibold"> Distrito:</span>
-                        <select 
-                            class="w-full border ml-2"
-                            @change="DistritoChange" 
+                    </div>
+                    <!-- Distrito -->
+                    <div class="px-2 mb-2">
+                        <label class="text-blue-100" for="selectDtt">Distrito</label>
+                        <select
+                            class="w-full h-8"
+                            @change="DistritoChange"
                             name="Distritos"
-                            id="selectDtt" >
-                            
-                            <option 
-                                v-for="dt in distritos" 
-                                :key="dt.key"
-                                :value="dt.key" >{{dt.value}}</option>
+                            id="selectDtt" 
+                        >
+                            <option
+                            v-for="dt in distritos"
+                            :key="dt.key"
+                            :value="dt.key" >{{dt.value}}</option>
                         </select>
-                    </span>
-                </div>
-
-                <!-- selección de tipo de inmueble -->
-                <div class="flex flex-col rounded border px-2">
-                    <span class="text-xl mb-8 font-semibold text-3xl">Selecciona el tipo de inmueble (puedes seleccionar varios): </span>
-                    <div class="flex justify-around">
-                        <span class="text-xl m-2 flex flex-col items-center">
-                            <input 
-                                class="m-1"
-                                type="checkbox" 
-                                name="Lote" 
-                                id="cbxLote"
-                                v-model="CbxLote">
-                                <img src="images/country_48px.png" alt="Lote">
-                                Lote
-                        </span>
-                        <span class="text-xl m-2 flex flex-col items-center">
-                            <input 
-                                class="m-1"
-                                type="checkbox" 
-                                name="Apartamento" 
-                                id="cbxApartamento"
-                                v-model="CbxApartamento">
-                                    <img src="images/building_40px.png" alt="apartamento">
-                                    Apartamento
-                        </span>
-                        <span class="text-xl m-2 flex flex-col items-center ">
-                            <input 
-                                class="m-1"
-                                type="checkbox" 
-                                name="Casa" 
-                                id="cbxCasa"
-                                v-model="CbxCasa">
-                                <img src="images/house_48px.png" alt="casa">
-                                Casa
-                        </span>
-
+                    </div>
+                    <!-- Tipo de inmueble -->
+                    <div>
+                        <div class="flex justify-around justify-between content-center flex-wrap h-16">
+                        <label class="mx-2 items-center text-gray-200">
+                            <input
+                            class="text-base"
+                            type="checkbox"
+                            name="Lote"
+                            id="cbxLote"
+                            v-model="CbxLote">
+                            <!-- <img src="images/country_48px.png" alt="Lote"> -->
+                            Lote
+                        </label>
+                        <label class="mx-2 items-center text-gray-200">
+                            <input
+                            class="text-base"
+                            type="checkbox"
+                            name="Apartamento"
+                            id="cbxApartamento"
+                            v-model="CbxApartamento">
+                            <!-- <img src="images/building_40px.png" alt="apartamento"> -->
+                            Apartamento
+                        </label>
+                        <label class="mx-2 items-center text-gray-200">
+                            <input
+                            class="text-base"
+                            type="checkbox"
+                            name="Casa"
+                            id="cbxCasa"
+                            v-model="CbxCasa">
+                            <!-- <img src="images/house_48px.png" alt="casa"> -->
+                            Casa
+                        </label>
+                        
+                        </div>
+                    </div>
+                    <!-- Botón -->
+                    <div>
+                        <button class="bg-gray-800 hover:bg-blue-800 text-gray-200 font-bold py-2 px-4 border border-gray-700 rounded text-md m-2 " @click="Buscar"><i class="fas fa-search-location"></i> Buscar</button>
+                        <button class="bg-gray-800 hover:bg-blue-800 text-gray-200 font-bold py-2 px-4 border border-gray-700 rounded text-md m-2 " @click="Buscar"><i class="fas fa-eraser"></i> Limpiar</button>
                     </div>
                 </div>
-            </div>
-
+            </section>
             <!-- mapa -->
-            <GmapMap
-                :center="selectedCenter"
-                :zoom="selectedZoom"
-                mapTypeControl= "false"
-                streetViewControl= "false"
-                class="w-full h-64"
-                ref='mapRef'>
+            <section class="flex-1 md:flex-1">
+                <GmapMap
+                    :center="selectedCenter"
+                    :zoom="selectedZoom"
+                    mapTypeControl= "false"
+                    streetViewControl= "false"
+                    class="w-full h-full"
+                    ref='mapRef'>
                     <GmapMarker
-                        :key="index"
-                        v-for="(p, index) in propiedades"
-                        :position={lat:p.lat,lng:p.lng}
-                        @click="SelecetPropiedad()"
-                        />
-            </GmapMap>
-            
-            <!-- botón -->
-            <div class="m-2 w-full flex justify-center">
-                <input type="button" value="BUSCAR EN ESTA ÁREA" class="bg-blue-500      hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded text-lg m-2 " @click="Buscar">
-            </div>
+                    :key="index"
+                    v-for="(p, index) in propiedades"
+                    :position={lat:p.lat,lng:p.lng}
+                    @click="SelecetPropiedad()"
+                />
+                </GmapMap>
+            </section>
+        </div>
 
+        <div class="container m-auto pt-5">
+            <h2 class="font-poppins text-3xl font-bold text-gray-800 py-5 text-center uppercase tracking-widest">Propiedades</h2>
+            <hr class="w-10 mb-8 mx-auto bg-gray-800 border-4">
             <!-- cards -->
                 <div class="w-full" uk-slider>
                     <div class="uk-position-relative">
                         <div class="uk-slider-container uk-dark">
-                        
                             <ul class="uk-slider-items uk-child-width-1-2@s  uk-child-width-1-3@m uk-child-width-1-1@">
-                                <li v-for="(propiedad, n) in propiedades" :key="n" class="ml-1">
+                                <li v-for="(propiedad, n) in propiedades" :key="n" class="ml-2">
                                     <Card  :propiedad="propiedad"></Card>
                                 </li>
                             </ul>
@@ -144,7 +146,7 @@
                 Ups! Nada que mostrar. <br> Pulsa el botón BUSCAR EN ESTA ÁREA o cambia el área en el mapa. 
             </div>
         </div>
-   </div>
+   </main>
  </template>
 
  <script>
@@ -240,8 +242,8 @@
                 const selectedCity=document.getElementById('selectPrv').selectedOptions[0].outerText
                 var addressObj = {
                     city:selectedCity,
-                    state:selectedCanton,          
-                    zip_code:'',     
+                    state:selectedCanton,
+                    zip_code:'',
                     country:'Costa Rica'
                 }
                 Vue.$geocoder.send(addressObj, x => {
@@ -317,7 +319,7 @@
                             propLng > minLng &&
                             propLng < maxLng){
                                 const newPropiedad=prop.data()
-                                Object.assign(newPropiedad,{id:prop.id})
+                                Object.assign(newPropiedad, {id: prop.id})
 
                                 this.propiedades.push(newPropiedad)
                         }                        

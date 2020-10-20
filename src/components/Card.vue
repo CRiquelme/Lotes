@@ -1,27 +1,30 @@
 <template>
     <div class="w-full overflow-hidden rounded-lg border">
+        <!-- Fotos -->
         <div uk-slideshow="autoplay: true">
             <ul class="uk-slideshow-items">
                 <li v-for="foto in fotos" :key="foto">
                     <img
-                        class="w-full md:h-48 object-cover object-center"
+                        v-if="foto"
+                        class="w-full md:h-48 object-scale-down object-center bg-gray-800"
                         :src="foto"
                         :alt="foto"
                     />
                     <div class="uk-position-top-right mt-4 mr-2">
-                        <p class="bg-orange-600 px-4 rounded-lg text-white shadow-lg shadow-inner">
+                        <p class="bg-blue-800 px-4 rounded-lg text-blue-100 shadow-lg shadow-inner">
                             {{ propiedad.tipo }}
                         </p>
                     </div>
-                    <div class="uk-position-bottom-left mt-4 ml-2">
-                        <p class="px-5 rounded-lg py-1 text-white font-bold">
+                    <div class="uk-position-bottom-left mt-4 pl-2 pt-2 bg-gradient-to-r from-blue-900 via-blue-700 w-full">
+                        <p class="px-5 rounded-lg text-white font-poppins">
                             <i class="fas fa-map-marked-alt"></i> {{ propiedad.provincia }} - {{ propiedad.canton }}
                         </p>
                     </div>
                 </li>
             </ul>
         </div>
-        <div class="px-6 py-4">
+        <!-- Detalles -->
+        <div class="px-6 py-2 bg-white">
             <p class="font-bold text-md mb-2 uppercase">
                 {{ propiedad.titulo }}
             </p>
@@ -29,15 +32,19 @@
                 {{ propiedad.precio | precio }}
             </p>
             <p class="text-gray-700 text-xs">
-                {{ propiedad.descripcion.substring(0,110)+"..." }}
+                {{ propiedad.descripcion.substring(0,100)+"..." }}
             </p>
-            <div class="flex justify-between">
+            <div class="flex justify-between mt-5">
                 <p>
                     <i class="fas fa-ruler-combined"></i> {{propiedad.area_terreno}} {{propiedad.tipo_medida}}
                 </p>
                 <router-link :to="'/perfil-propiedad/'+propiedad.propid" class="bg-orange-600 px-3 rounded-md text-white hover:text-white h-6">Detalles</router-link>
             </div>
-            <hr>
+        </div>
+
+        <!-- info vendedor  -->
+        <div class="px-6 py-1 bg-white">
+            <hr class="mx-auto w-20 border-2">
             <div class="flex justify-between">
                 <p v-if="infoVendedor.nombre && infoVendedor.apellido">
                     <router-link :to="'/perfil-usuario/'+propiedad.uid" class="text-gray-900 hover:text-orange-700">
@@ -50,17 +57,13 @@
             </div>
         </div>
 
-        <!-- Botón Detalles -->
-        <!-- <div class="m-2 w-full flex justify-center">
-            <input type="button" value="VER DETALLES" class="bg-blue-500      hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded text-lg m-2">
-        </div> -->
-
-        <!-- Tags -->
-        <!-- <div class="px-6 pt-4 pb-2">
-            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ propiedad.provincia }}</span>
-            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ propiedad.canton }}</span>
-            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ propiedad.distrito }}</span>
-        </div> -->
+        <!-- footer -->
+        <div
+            v-if="idUser === infoVendedor.id"
+            class="flex justify-between"
+        >
+            <router-link :to="'/publicar/'+propiedad.propid" class="bg-orange-600 px-3 rounded-md text-white hover:text-white h-6">Editar</router-link>
+        </div>
     </div>
 </template>
 <script>
@@ -73,11 +76,18 @@ export default {
     data(){
         return {
             fotos: [],
-            infoVendedor: ''
+            infoVendedor: '',
+            idUser: ''
         }
     },
     mounted: function () {
         let self = this
+        self.idUser = f.auth().currentUser;
+        let idPropiedad = ''
+
+        if(self.propiedad.propid) { idPropiedad = self.propiedad.propid }
+        if(self.propiedad.id) { idPropiedad = self.propiedad.id }
+
         let tituloFotos = [
           self.propiedad.mejor_vista, 
           self.propiedad.acceso,
@@ -87,7 +97,7 @@ export default {
         tituloFotos.forEach((titulo) => {
           if(titulo) {
             f.storage()
-              .ref("fotos/" + self.propiedad.propid + "/" + titulo)
+              .ref("fotos/" + idPropiedad + "/" + titulo)
               .getDownloadURL()
               .then((imgUrl) => {
                 self.fotos.push(imgUrl);

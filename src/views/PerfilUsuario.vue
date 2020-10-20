@@ -23,7 +23,8 @@
       </div>
       <div class="col-span-3 md:-mt-10 grid grid-cols-2 gap-4">
         <!-- card de propiedad -->
-        <div
+        <Card v-for="(propiedad, n) in propiedades" :key="n" :propiedad="propiedad"></Card>
+        <!-- <div
           v-for="propiedad in propiedades"
           :key="propiedad.id"
           class="max-w-sm rounded overflow-hidden shadow-lg bg-white"
@@ -43,7 +44,7 @@
               >{{ propiedad.tipo }}</span
             >
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -52,8 +53,11 @@
 <script>
 import { db } from "@/firebase";
 import "firebase/auth";
+import Card from "@/components/Card";
+
 export default {
   name: "PerfilUsuario",
+  components:{ Card },
   data() {
     return {
       uid: "",
@@ -81,8 +85,10 @@ export default {
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
           // doc.data() is never undefined for query doc snapshots
-          self.propiedades.push(doc.data());
-          console.log(self.propiedades);
+          let data = { ...doc.data(), propid: doc.id };
+          self.propiedades.push(data)
+          // self.propiedades.push(doc.data());
+          // console.log(self.propiedades);
         });
       })
       .catch(function (error) {
