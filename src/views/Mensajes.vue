@@ -13,9 +13,11 @@
             </div>
             <!-- botón y texto -->
             <div class="w-full h-20 flex items-center mt-2">
-                <textarea name="" id="" cols="20" rows="4" class="w-full h-full p-1 mr-2 rounded-lg border-solid border-2 border-gray-400" style="resize:none" v-model="newMessageText"></textarea>
+                <textarea name="" id="" cols="20" rows="4" class="w-full h-full p-1 mr-2 rounded-lg border-solid border-2 border-gray-400" style="resize:none" v-model="newMessageText"
+                @keyup.enter="sendMessage"></textarea>
                 <button class="bg-blue-500      hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded text-lg " 
-                @click="sendMessage">
+                @click="sendMessage"
+                >
                     Enviar
                 </button>
             </div>
@@ -84,7 +86,7 @@
 
             //ordena por fecha
             this.messagesList=messageTemporal.sort( (a, b) =>{
-                return (b.date - a.date)
+                return (a[1].date - b[1].date)
             })
 
         },
